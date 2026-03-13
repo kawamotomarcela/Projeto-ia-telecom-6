@@ -1,141 +1,78 @@
 # 📊 PROPOSTA 6 - Predição de Tempo de Resolução
 **Status:** Em desenvolvimento ⚠️👍  
 
-#### **Instituição:** Unimar | Universidade de Marília  
-#### **Curso:** Inteligencia Artificial 
-#### **Termo:** 3° A
 
-## 👥 Nomes - Grupo:
-- Nathan Gabriel da Silva RA: 2078558 
-- Marcela Kawamoto Fernandes RA: 2224453 
-- Kenji Yuri Mitsuka de Paula, RA: 2033472 
-- Julia Soares de Azevedo Lombardi RA: 2032874 
-- Tainá De Souza Alves RA: 2041631 
-- Matheus Bargas Rodrigues Flausino RA: 2057008 
-- Lucia Maria Reis Braga RA: 2035292 
+---
+# ▶️ Como Rodar o Projeto
+
+Este projeto utiliza **Python, Django e Machine Learning** para prever o tempo de resolução de Ordens de Serviço.
+
+Siga os passos abaixo para executar o projeto.
 
 ---
 
+# 1️⃣ Instalar Requisitos
 
-## 🎯 Objetivo
+Certifique-se de ter instalado:
 
-Desenvolver um modelo de **Machine Learning** capaz de prever o tempo necessário para finalizar uma Ordem de Serviço (OS), utilizando dados históricos.
+- Python 3.10 ou superior
+- pip
 
-A proposta busca:
+Verifique a versão do Python:
 
-- Melhorar o planejamento operacional  
-- Reduzir atrasos  
-- Aumentar a eficiência na alocação de recursos  
-- Estimar prazos com maior precisão  
+```bash
+python --version
+```
 
----
+## 2️⃣ Criar Ambiente Virtual
 
-## 📌 Definição do Problema
+Dentro da pasta do projeto, execute:
 
-O problema é classificado como **Regressão**, pois o objetivo é prever um valor numérico contínuo:
+Windows
+```
+python -m venv venv
+venv\Scripts\activate
+```
+Linux / Mac
+```
+python3 -m venv venv
+source venv/bin/activate
+```
+## 3️⃣ Instalar Dependências
+```
+pip install -r requirements.txt
+```
+## 4️⃣ Configurar o Django
 
-> ⏱️ Tempo total de resolução da OS (em horas ou dias)
+Entre na pasta onde está o manage.py e execute:
 
----
+```
+python manage.py makemigrations
+python manage.py migrate
+```
+## 5️⃣ Rodar o Servidor
+```
+python manage.py runserver
+```
 
-## 🗂️ Dados Utilizados
+Abra no navegador:
+```
+http://127.0.0.1:8000
+```
+## 6️⃣ Rodar Treinamento do Modelo (Opcional)
 
-### 🔹 Variáveis de Entrada (Features)
+Se quiser treinar o modelo de Machine Learning:
 
-- Tipo da OS  
-- Categoria do problema  
-- Prioridade  
-- Data de abertura  
-- Técnico responsável  
-- Setor solicitante  
-- Histórico de tempo médio por categoria  
-- Status anteriores da OS  
+```
+python src/train.py
+```
+# ✔️ Resumo Rápido
+```
+python -m venv venv
+venv\Scripts\activate
+pip install -r requirements.txt
 
-### 🔹 Variável Alvo (Target)
-
-- Tempo total de resolução  
-
----
-
-## 🤖 Modelos Avaliados
-
-Serão comparados diferentes modelos de regressão:
-
-- Random Forest Regressor  
-- XGBoost Regressor  
-- Rede Neural (MLP Regressor)  
-
-O modelo com melhor desempenho e capacidade de generalização será selecionado.
-
----
-
-## 📏 Métricas de Avaliação
-
-Para medir a performance dos modelos, serão utilizadas:
-
-- **MAE (Mean Absolute Error)**  
-  → Mede o erro médio absoluto das previsões  
-
-- **RMSE (Root Mean Squared Error)**  
-  → Penaliza erros maiores  
-
-- **R² (Coeficiente de Determinação)**  
-  → Indica o quanto o modelo explica a variabilidade dos dados  
-
----
-
-## 🔄 Etapas do Projeto
-
-1. Coleta e limpeza dos dados  
-2. Análise Exploratória (EDA)  
-3. Feature Engineering  
-4. Divisão em treino e teste  
-5. Treinamento dos modelos  
-6. Avaliação comparativa  
-7. Ajuste de hiperparâmetros  
-8. Seleção do melhor modelo  
-
----
-
-## 🚀 Possíveis Melhorias Futuras
-
-- Deploy do modelo via API  
-- Atualização automática com novos dados  
-- Dashboard com previsões em tempo real  
-- Sistema de alerta para OS com risco de atraso  
-
----
-
-## 🛠️ Tecnologias Utilizadas
-
-- Python  
-- Pandas  
-- NumPy  
-- Scikit-Learn  
-- XGBoost  
-- Matplotlib / Seaborn  
-- Jupyter Notebook  
-
----
-
-## 📂 Estrutura do Projeto
-```text
-projeto-predicao-os/
-│
-├── data/
-│ ├── raw/
-│ └── processed/
-│
-├── notebooks/
-│ ├── 01_eda.ipynb
-│ ├── 02_modelagem.ipynb
-│
-├── src/
-│ ├── preprocessing.py
-│ ├── train.py
-│ ├── evaluate.py
-│
-├── models/
-│
-├── requirements.txt
-└── README.md
+python manage.py makemigrations
+python manage.py migrate
+python manage.py runserver
+```
