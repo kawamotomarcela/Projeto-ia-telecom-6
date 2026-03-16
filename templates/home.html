@@ -1,0 +1,104 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Predição de Tempo de Resolução</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+    <main class="app-container">
+        <section class="hero-card">
+            <div class="hero-top">
+                <div>
+                    <span class="badge">Machine Learning + Django</span>
+                    <h1>Predição de Tempo de Resolução</h1>
+                    <p class="hero-text">
+                        Informe os dados principais da Ordem de Serviço para estimar
+                        o tempo necessário para sua conclusão com base no modelo treinado.
+                    </p>
+                </div>
+            </div>
+
+            <div class="content-grid">
+                <section class="form-panel">
+                    <div class="panel-header">
+                        <h2>Dados da Ordem de Serviço</h2>
+                        <p>
+                            Preencha os IDs principais e a data de abertura.
+                            As características do produto serão buscadas automaticamente
+                            na base <strong>export_produtos.csv</strong>.
+                        </p>
+                    </div>
+
+                    <form method="post" class="prediction-form">
+                        {% csrf_token %}
+
+                        {% for field in form %}
+                            <div class="form-group {% if field.name == 'tipo_atendimento_id' or field.name == 'data_abertura' %}full-width{% endif %}">
+                                <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                                {{ field }}
+
+                                {% if field.help_text %}
+                                    <small class="help-text">{{ field.help_text }}</small>
+                                {% endif %}
+
+                                {% if field.errors %}
+                                    <div class="error-box">
+                                        {% for error in field.errors %}
+                                            <span>{{ error }}</span>
+                                        {% endfor %}
+                                    </div>
+                                {% endif %}
+                            </div>
+                        {% endfor %}
+
+                        <button type="submit" class="btn-primary">Gerar previsão</button>
+                    </form>
+                </section>
+
+                <aside class="result-panel">
+                    <div class="result-card">
+                        <p class="result-label">Resultado da previsão</p>
+
+                        {% if erro %}
+                            <div class="error-box result-error">
+                                <span>{{ erro }}</span>
+                            </div>
+                        {% elif resultado is not None %}
+                            <div class="result-highlight">
+                                <span class="result-title">Tempo estimado</span>
+                                <strong class="result-value">{{ resultado }} horas</strong>
+                            </div>
+
+                            <div class="result-info">
+                                <div class="info-item">
+                                    <span class="info-title">Status</span>
+                                    <span class="info-text success">Previsão gerada com sucesso</span>
+                                </div>
+
+                                <div class="info-item">
+                                    <span class="info-title">Base utilizada</span>
+                                    <span class="info-text">
+                                        A previsão considera o merge entre os dados da OS
+                                        e as características do produto.
+                                    </span>
+                                </div>
+                            </div>
+                        {% else %}
+                            <div class="result-empty">
+                                <div class="empty-icon">⏱️</div>
+                                <h3>Aguardando dados</h3>
+                                <p>
+                                    O resultado da estimativa aparecerá aqui após o envio do formulário.
+                                </p>
+                            </div>
+                        {% endif %}
+                    </div>
+                </aside>
+            </div>
+        </section>
+    </main>
+</body>
+</html>

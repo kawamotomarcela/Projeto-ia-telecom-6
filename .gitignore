@@ -1,0 +1,8 @@
+venv/
+__pycache__/
+*.pyc
+db.sqlite3
+
+Dataset/dados_tratados.csv
+Dataset/export_os_defeito_solucao.csv
+models/
