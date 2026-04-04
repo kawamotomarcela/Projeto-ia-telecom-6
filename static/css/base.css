@@ -1,0 +1,59 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --bg-dark-1: #020617;
+    --bg-dark-2: #0f172a;
+    --bg-dark-3: #111827;
+
+    --white: #ffffff;
+    --surface: rgba(255, 255, 255, 0.96);
+    --surface-soft: #f8fafc;
+
+    --text-main: #0f172a;
+    --text-soft: #64748b;
+    --text-light: #dbeafe;
+
+    --primary: #2563eb;
+    --primary-dark: #1d4ed8;
+    --primary-soft: rgba(37, 99, 235, 0.12);
+
+    --success: #166534;
+    --error: #b91c1c;
+    --error-bg: #fee2e2;
+    --error-border: #fecaca;
+
+    --warning-bg: #fff7ed;
+    --warning-border: #fed7aa;
+    --warning-text: #9a3412;
+
+    --border: #dbe4ee;
+    --border-soft: #e2e8f0;
+
+    --shadow-main: 0 25px 60px rgba(2, 6, 23, 0.30);
+    --shadow-card: 0 14px 36px rgba(15, 23, 42, 0.08);
+
+    --radius-xl: 28px;
+    --radius-lg: 22px;
+    --radius-md: 16px;
+    --radius-sm: 12px;
+}
+
+html,
+body {
+    width: 100%;
+    min-height: 100%;
+    overflow-x: hidden;
+}
+
+body {
+    font-family: "Segoe UI", Arial, sans-serif;
+    color: var(--text-main);
+    background:
+        radial-gradient(circle at top left, rgba(37, 99, 235, 0.18), transparent 24%),
+        radial-gradient(circle at bottom right, rgba(59, 130, 246, 0.12), transparent 22%),
+        linear-gradient(135deg, var(--bg-dark-1), var(--bg-dark-2), var(--bg-dark-3));
+}

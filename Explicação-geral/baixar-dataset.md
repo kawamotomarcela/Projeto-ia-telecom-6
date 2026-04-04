@@ -5,8 +5,6 @@ Os datasets completos não foram incluídos neste repositório devido ao limite 
 Para executar o projeto:
 
 1. Baixe os datasets neste link:
-https://drive.google.com/...
-
-2. Coloque os arquivos dentro da pasta:
-
-Dataset/
+```text
+https://drive.google.com/drive/folders/1YG2V6OksrwnAIEa1Aui2HqZWfh_SfzQ5
+```

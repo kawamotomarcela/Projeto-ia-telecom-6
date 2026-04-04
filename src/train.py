@@ -8,54 +8,109 @@ from sklearn.model_selection import train_test_split
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-arquivo = BASE_DIR / "Dataset" / "dados_tratados.csv"
-df = pd.read_csv(arquivo)
+DATASET_DIR = BASE_DIR / "Dataset"
+PROCESSED_DIR = DATASET_DIR / "processed"
+MODELS_DIR = BASE_DIR / "models"
 
-print("Dataset carregado:", df.shape)
+ARQUIVO_DADOS_TRATADOS = PROCESSED_DIR / "dados_tratados.csv"
+ARQUIVO_MODELO = MODELS_DIR / "modelo_tempo_os.pkl"
+ARQUIVO_COLUNAS = MODELS_DIR / "colunas_modelo.pkl"
 
-target = "tempo_resolucao_horas"
+TARGET = "tempo_resolucao_horas"
 
-if target not in df.columns:
-    raise ValueError(f"A coluna alvo '{target}' não foi encontrada.")
 
-if df.shape[0] == 0:
-    raise ValueError("O dataset tratado ficou vazio. Verifique o preprocess.py.")
+def carregar_dataset(caminho: Path) -> pd.DataFrame:
+    """
+    Carrega o dataset tratado.
+    """
+    if not caminho.exists():
+        raise FileNotFoundError(
+            f"O arquivo de dados tratados não foi encontrado em: {caminho}\n"
+            f"Execute primeiro o preprocess.py."
+        )
 
-X = df.drop(columns=[target])
-y = df[target]
+    df = pd.read_csv(caminho)
 
-print("Features:", X.columns.tolist())
-print("Quantidade de amostras:", len(df))
+    if df.empty:
+        raise ValueError(
+            "O dataset tratado está vazio. Verifique se o preprocess.py foi executado corretamente."
+        )
 
-X_train, X_test, y_train, y_test = train_test_split(
-    X, y, test_size=0.2, random_state=42
-)
+    if TARGET not in df.columns:
+        raise ValueError(
+            f"A coluna alvo '{TARGET}' não foi encontrada no dataset tratado."
+        )
 
-model = RandomForestRegressor(
-    n_estimators=200,
-    random_state=42,
-    n_jobs=-1
-)
+    return df
 
-model.fit(X_train, y_train)
 
-pred = model.predict(X_test)
+def avaliar_modelo(y_true, y_pred) -> dict:
+    """
+    Calcula métricas de avaliação do modelo.
+    """
+    mae = mean_absolute_error(y_true, y_pred)
+    rmse = math.sqrt(mean_squared_error(y_true, y_pred))
+    r2 = r2_score(y_true, y_pred)
 
-mae = mean_absolute_error(y_test, pred)
-rmse = math.sqrt(mean_squared_error(y_test, pred))
-r2 = r2_score(y_test, pred)
+    return {
+        "MAE": mae,
+        "RMSE": rmse,
+        "R2": r2,
+    }
 
-print("\nTreinamento concluído.")
-print(f"MAE: {mae:.4f}")
-print(f"RMSE: {rmse:.4f}")
-print(f"R²: {r2:.4f}")
 
-models_dir = BASE_DIR / "models"
-models_dir.mkdir(exist_ok=True)
+def main():
+    print("Iniciando treinamento do modelo...")
 
-joblib.dump(model, models_dir / "modelo_tempo_os.pkl")
-joblib.dump(list(X.columns), models_dir / "colunas_modelo.pkl")
+    MODELS_DIR.mkdir(parents=True, exist_ok=True)
 
-print("\nModelo salvo com sucesso em:")
-print(models_dir / "modelo_tempo_os.pkl")
-print(models_dir / "colunas_modelo.pkl")
+    print("Carregando dataset tratado...")
+    df = carregar_dataset(ARQUIVO_DADOS_TRATADOS)
+
+    print(f"Dataset carregado: {df.shape}")
+
+    X = df.drop(columns=[TARGET])
+    y = df[TARGET]
+
+    print(f"Quantidade de amostras: {len(df)}")
+    print("Features utilizadas:")
+    print(X.columns.tolist())
+
+    print("\nSeparando dados de treino e teste...")
+    X_train, X_test, y_train, y_test = train_test_split(
+        X,
+        y,
+        test_size=0.2,
+        random_state=42,
+    )
+
+    print("Treinando modelo RandomForestRegressor...")
+    modelo = RandomForestRegressor(
+        n_estimators=200,
+        random_state=42,
+        n_jobs=-1,
+    )
+
+    modelo.fit(X_train, y_train)
+
+    print("Realizando predições no conjunto de teste...")
+    y_pred = modelo.predict(X_test)
+
+    metricas = avaliar_modelo(y_test, y_pred)
+
+    print("\nTreinamento concluído.")
+    print(f"MAE: {metricas['MAE']:.4f}")
+    print(f"RMSE: {metricas['RMSE']:.4f}")
+    print(f"R²: {metricas['R2']:.4f}")
+
+    print("\nSalvando artefatos do modelo...")
+    joblib.dump(modelo, ARQUIVO_MODELO)
+    joblib.dump(list(X.columns), ARQUIVO_COLUNAS)
+
+    print("Modelo salvo com sucesso em:")
+    print(ARQUIVO_MODELO)
+    print(ARQUIVO_COLUNAS)
+
+
+if __name__ == "__main__":
+    main()

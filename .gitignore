@@ -3,5 +3,13 @@ __pycache__/
 *.pyc
 db.sqlite3
 
+Dataset/processed/
 Dataset/dados_tratados.csv
-models/
+Dataset/DatasetInfo/
+
+models/*.pkl
+
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/

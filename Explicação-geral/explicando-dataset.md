@@ -1,18 +1,3 @@
-# Melhoria do Projeto: Uso da Pasta DatasetInfo
-
-## Contexto
-
-Durante o desenvolvimento do projeto foram fornecidos diversos datasets.  
-Entretanto, apenas dois deles foram utilizados diretamente para o treinamento do modelo de Machine Learning:
-
-- `export_os_defeito_solucao.csv`
-- `export_produtos.csv`
-
-Esses arquivos foram suficientes para construir o modelo de **predição de tempo de resolução de ordens de serviço**.
-
-Porém, os demais datasets disponibilizados contêm **informações descritivas importantes**, que podem melhorar significativamente a usabilidade do sistema.
-
----
 
 # Problema Atual
 

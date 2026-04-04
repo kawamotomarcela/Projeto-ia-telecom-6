@@ -4,6 +4,18 @@
 
 ---
 
+
+## 👥 Nomes - Grupo:
+- Nathan Gabriel da Silva RA: 2078558 
+- Marcela Kawamoto Fernandes RA: 2224453 
+- Kenji Yuri Mitsuka de Paula, RA: 2033472 
+- Julia Soares de Azevedo Lombardi RA: 2032874 
+- Tainá De Souza Alves RA: 2041631 
+- Matheus Bargas Rodrigues Flausino RA: 2057008 
+- Lucia Maria Reis Braga RA: 2035292 
+
+---
+
 # ▶️ Como Rodar o Projeto
 
 Siga os passos abaixo para executar o sistema localmente.
@@ -125,16 +137,15 @@ python manage.py migrate
 python manage.py runserver
 ```
 
-## 📌 Melhorias Futuras
+## 📌 Observações
 
-Planejadas para próximas versões:
+Atualmente, o projeto já utiliza a pasta DatasetInfo para melhorar a interface, permitindo que o usuário selecione descrições legíveis em vez de preencher apenas IDs numéricos.
 
-- pasta datasetinfo com descrição dos IDs
+Como possibilidades futuras, o projeto pode evoluir com:
 
-- interface com busca de defeitos e soluções
-
+- uso de API, caso seja necessário centralizar os dados auxiliares em um único serviço
+- uso de Sass/SCSS, caso a interface cresça e seja necessário organizar melhor os estilos
+- busca inteligente para produto
 - pipeline automático de treino
+- melhorias de UX e validação do modelo
 
-- validação mais robusta do modelo
-
-- melhorias de UX na interface

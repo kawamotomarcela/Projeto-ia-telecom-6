@@ -1,19 +1,18 @@
 from django import forms
+from .utils import get_form_choices
 
 
 class PrevisaoForm(forms.Form):
-    tipo_atendimento_id = forms.IntegerField(
-        label="Tipo de Atendimento (ID)",
-        min_value=1,
+    tipo_atendimento_id = forms.TypedChoiceField(
+        label="Tipo de Atendimento",
+        coerce=int,
+        choices=(),
         error_messages={
-            "required": "Informe o tipo de atendimento.",
-            "invalid": "Digite um número válido.",
+            "required": "Selecione o tipo de atendimento.",
+            "invalid_choice": "Selecione uma opção válida.",
         },
-        widget=forms.NumberInput(attrs={
-            "class": "form-input",
-            "placeholder": "Ex: 252",
-        }),
-        help_text="Digite o ID do tipo de atendimento."
+        widget=forms.Select(attrs={"class": "form-input"}),
+        help_text="Selecione o tipo de atendimento da OS."
     )
 
     produto_id = forms.IntegerField(
@@ -27,49 +26,37 @@ class PrevisaoForm(forms.Form):
             "class": "form-input",
             "placeholder": "Ex: 414898",
         }),
-        help_text="Digite o produto_id existente em export_produtos.csv."
+        help_text="Por enquanto, informe manualmente o produto_id existente em export_produtos.csv."
     )
 
-    defeito_reclamado_id = forms.IntegerField(
-        label="Defeito Reclamado (ID)",
+    defeito_reclamado_id = forms.TypedChoiceField(
+        label="Defeito Reclamado",
         required=False,
-        min_value=0,
-        error_messages={
-            "invalid": "Digite um número válido.",
-        },
-        widget=forms.NumberInput(attrs={
-            "class": "form-input",
-            "placeholder": "Opcional",
-        }),
-        help_text="Preencha apenas se esse campo existir para a OS."
+        choices=(),
+        coerce=int,
+        empty_value=0,
+        widget=forms.Select(attrs={"class": "form-input"}),
+        help_text="Opcional."
     )
 
-    defeito_constatado_id = forms.IntegerField(
-        label="Defeito Constatado (ID)",
+    defeito_constatado_id = forms.TypedChoiceField(
+        label="Defeito Constatado",
         required=False,
-        min_value=0,
-        error_messages={
-            "invalid": "Digite um número válido.",
-        },
-        widget=forms.NumberInput(attrs={
-            "class": "form-input",
-            "placeholder": "Opcional",
-        }),
-        help_text="Preencha apenas se esse campo existir para a OS."
+        choices=(),
+        coerce=int,
+        empty_value=0,
+        widget=forms.Select(attrs={"class": "form-input"}),
+        help_text="Opcional."
     )
 
-    solucao_id = forms.IntegerField(
-        label="Solução (ID)",
+    solucao_id = forms.TypedChoiceField(
+        label="Solução",
         required=False,
-        min_value=0,
-        error_messages={
-            "invalid": "Digite um número válido.",
-        },
-        widget=forms.NumberInput(attrs={
-            "class": "form-input",
-            "placeholder": "Opcional",
-        }),
-        help_text="Preencha apenas se esse campo existir para a OS."
+        choices=(),
+        coerce=int,
+        empty_value=0,
+        widget=forms.Select(attrs={"class": "form-input"}),
+        help_text="Opcional."
     )
 
     data_abertura = forms.DateField(
@@ -85,6 +72,15 @@ class PrevisaoForm(forms.Form):
         }),
         help_text="A data será usada para gerar ano, mês, dia e dia da semana."
     )
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        choices = get_form_choices()
+        self.fields["tipo_atendimento_id"].choices = choices["tipos_atendimento"]
+        self.fields["defeito_reclamado_id"].choices = choices["defeitos_reclamados"]
+        self.fields["defeito_constatado_id"].choices = choices["defeitos_constatados"]
+        self.fields["solucao_id"].choices = choices["solucoes"]
 
     def clean(self):
         cleaned_data = super().clean()
