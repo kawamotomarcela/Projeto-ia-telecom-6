@@ -1,4 +1,4 @@
-# 📊 PROPOSTA 6 — Predição de Tempo de Resolução
+# 📊 PROPOSTA 6 — Predição de Tempo de Resolução - 3 IA
 
 **Status:** Em desenvolvimento ⚠️👍
 
@@ -65,6 +65,7 @@ python3 -m venv venv
 source venv/bin/activate
 ```
 Caso use PowerShell e a ativação seja bloqueada
+
 ```bash
 Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
 
@@ -89,7 +90,7 @@ Esse script irá baixar os datasets a partir do link configurado no projeto e or
 
 Após o download, a estrutura esperada ficará assim:
 
-```bash
+```
 Dataset/
 ├── export_os_defeito_solucao.csv
 ├── export_produtos.csv
@@ -165,8 +166,9 @@ http://127.0.0.1:8000
 A interface permitirá inserir os dados da Ordem de Serviço e gerar a previsão de tempo de resolução.
 
 # ✔️ Resumo Rápido
-```bash
+
 Windows (CMD)
+```bash
 python -m venv venv
 venv\Scripts\activate
 pip install -r requirements.txt
@@ -177,6 +179,7 @@ python manage.py makemigrations
 python manage.py migrate
 python manage.py runserver
 ```
+
 Linux / Mac
 ```bash
 python3 -m venv venv
@@ -213,7 +216,7 @@ python manage.py createsuperuser
 
 Sugestão para testes
 ```
-Usuário: admin
+Usuário: admintrator
 
 Email: admin@teste.com
 
