@@ -1,0 +1,77 @@
+.ts-wrapper {
+    width: 100%;
+}
+
+.ts-wrapper.single .ts-control {
+    min-height: 52px;
+    padding: 10px 14px;
+    border-radius: 14px;
+    border: 1px solid var(--border);
+    background: var(--surface-soft);
+    box-shadow: none;
+    transition:
+        border-color 0.2s ease,
+        box-shadow 0.2s ease,
+        background 0.2s ease;
+}
+
+.ts-wrapper.single .ts-control:hover {
+    border-color: #c8d6e5;
+    background: #ffffff;
+}
+
+.ts-wrapper.focus .ts-control {
+    border-color: var(--primary);
+    background: #ffffff;
+    box-shadow: 0 0 0 4px var(--primary-soft);
+}
+
+.ts-wrapper.single .ts-control input {
+    font-size: 0.96rem;
+    color: var(--text-main);
+}
+
+.ts-wrapper .ts-control > .item {
+    color: var(--text-main);
+    font-size: 0.96rem;
+}
+
+.ts-dropdown {
+    margin-top: 8px;
+    border-radius: 14px;
+    border: 1px solid var(--border);
+    background: #ffffff;
+    overflow: hidden;
+    z-index: 9999;
+    box-shadow: 0 16px 32px rgba(15, 23, 42, 0.14);
+}
+
+.ts-dropdown .ts-dropdown-content {
+    max-height: 240px;
+    overflow-y: auto;
+    scrollbar-width: thin;
+}
+
+.ts-dropdown .option {
+    padding: 10px 14px;
+    font-size: 0.95rem;
+    color: var(--text-main);
+    line-height: 1.45;
+}
+
+.ts-dropdown .option:hover,
+.ts-dropdown .active {
+    background: #eff6ff;
+    color: #1d4ed8;
+}
+
+.ts-dropdown .selected {
+    background: #dbeafe;
+    color: #1e3a8a;
+}
+
+.no-results {
+    padding: 12px 14px;
+    font-size: 0.92rem;
+    color: var(--text-soft);
+}

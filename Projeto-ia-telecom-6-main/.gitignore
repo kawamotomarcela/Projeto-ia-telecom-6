@@ -3,8 +3,6 @@ __pycache__/
 *.pyc
 db.sqlite3
 
-Dataset/export_os_defeito_solucao.csv
-Dataset/export_produtos.csv
 Dataset/processed/
 Dataset/dados_tratados.csv
 Dataset/DatasetInfo/

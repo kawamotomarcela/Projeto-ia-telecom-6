@@ -1,0 +1,2 @@
+Dataset/export_os_defeito_solucao.csv filter=lfs diff=lfs merge=lfs -text
+Dataset/export_produtos.csv filter=lfs diff=lfs merge=lfs -text

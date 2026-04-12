@@ -20,6 +20,9 @@ TARGET = "tempo_resolucao_horas"
 
 
 def carregar_dataset(caminho: Path) -> pd.DataFrame:
+    """
+    Carrega o dataset tratado.
+    """
     if not caminho.exists():
         raise FileNotFoundError(
             f"O arquivo de dados tratados não foi encontrado em: {caminho}\n"
@@ -42,6 +45,9 @@ def carregar_dataset(caminho: Path) -> pd.DataFrame:
 
 
 def avaliar_modelo(y_true, y_pred) -> dict:
+    """
+    Calcula métricas de avaliação do modelo.
+    """
     mae = mean_absolute_error(y_true, y_pred)
     rmse = math.sqrt(mean_squared_error(y_true, y_pred))
     r2 = r2_score(y_true, y_pred)

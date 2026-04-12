@@ -15,7 +15,7 @@ Assim, foi necessário definir uma estratégia que permitisse:
 
 - organizar corretamente os datasets
 - executar o sistema localmente
-- facilitar a obtenção dos arquivos necessários
+- apresentar o projeto em outras máquinas
 - utilizar o banco de dados de forma simples e funcional
 
 ---
@@ -125,17 +125,15 @@ Dessa forma, embora o uso de API possa ser válido em sistemas maiores, ele não
 
 ## 6. Solução adotada
 
-A solução adotada foi organizar os dados por função e utilizá-los localmente no projeto, mas com uma melhoria importante: **o download dos datasets passou a ser automatizado por script**.
+A solução adotada foi organizar os dados por função e utilizá-los localmente no projeto.
 
 Na prática, isso significa:
 
-1. baixar os arquivos necessários diretamente do Google Drive por meio de um script
-2. armazenar esses arquivos automaticamente dentro da pasta `Dataset/`
-3. manter os datasets principais para o pipeline de *Machine Learning*
-4. utilizar os datasets auxiliares apenas para melhorar a interface
-5. gerar localmente o dataset tratado
-6. treinar o modelo e salvar seus artefatos
-7. usar banco de dados local para guardar o histórico das previsões
+1. manter os datasets principais para o pipeline de *Machine Learning*
+2. utilizar os datasets auxiliares apenas para melhorar a interface
+3. gerar localmente o dataset tratado
+4. treinar o modelo e salvar seus artefatos
+5. usar banco de dados local para guardar o histórico das previsões
 
 Essa abordagem foi escolhida porque equilibra:
 
@@ -147,48 +145,34 @@ Essa abordagem foi escolhida porque equilibra:
 
 ---
 
-## 7. Obtenção dos arquivos no ambiente local
+### 7. No ambiente local do desenvolvedor
 
-Atualmente, o projeto não depende de o usuário organizar manualmente todos os arquivos antes de começar.
+Os arquivos ficam organizados dentro da estrutura do projeto e são utilizados diretamente pelo sistema.
 
-A obtenção dos dados funciona por meio do script:
+### 7.1 Para quem clonar o projeto pelo GitHub
 
-```bash
-src/data/download_data.py
-```
-Esse script acessa a pasta disponibilizada no Google Drive e baixa automaticamente os arquivos necessários, organizando-os na estrutura esperada pelo sistema.
+É importante observar que:
 
-Dessa forma:
+- os **datasets principais** foram enviados com **Git LFS**
+- os arquivos de **`DatasetInfo` não foram incluídos no repositório**
+- portanto, quem clonar o projeto precisará **baixar os arquivos auxiliares do `DatasetInfo` manualmente**
 
-- o usuário não precisa baixar e mover cada arquivo manualmente
-- os arquivos principais e auxiliares são colocados nos locais corretos
-- o restante do projeto continua funcionando localmente, a partir desses arquivos
+Ou seja:
 
-### 7.1 Como isso funciona na prática
+- os arquivos principais podem ser obtidos normalmente pelo repositório, desde que o usuário tenha suporte ao **Git LFS**
+- os arquivos auxiliares da interface precisam ser baixados e colocados manualmente na pasta correta
 
-O fluxo atual do projeto é:
+### 7.2 Consequência prática
 
-- executar o script de download
-- gerar o dataset tratado
-- treinar o modelo
-- rodar a aplicação Django
+Se a pessoa baixar o projeto sem os arquivos de `DatasetInfo`, o sistema poderá abrir, mas alguns campos da interface não funcionarão corretamente, pois dependem dessas descrições auxiliares.
 
-Ou seja, o Google Drive agora funciona como fonte dos arquivos, enquanto o sistema continua operando localmente após o download.
-
-### 7.2 Vantagem dessa abordagem
-
-Essa solução melhora o projeto porque:
-
-- reduz o trabalho manual de quem vai executar
-- evita erros de organização de arquivos
-- mantém o sistema local e estável
-- não obriga a aplicação a consultar o Drive em tempo real durante o uso
+---
 
 ## 8. Estrutura recomendada
 
 A organização recomendada do projeto é a seguinte:
 
-```bash
+```text
 projeto/
 ├── Dataset/
 │   ├── export_os_defeito_solucao.csv
@@ -197,7 +181,8 @@ projeto/
 │   │   ├── export_tipos_atendimento.csv
 │   │   ├── export_solucoes.csv
 │   │   ├── export_defeitos_reclamados.csv
-│   │   └── export_defeitos_constatados.csv
+│   │   ├── export_defeitos_constatados.csv
+│   │   └── export_resumo_produto.csv
 │   └── processed/
 │       └── dados_tratados.csv
 ├── models/
@@ -205,11 +190,6 @@ projeto/
 │   └── colunas_modelo.pkl
 ├── previsao/
 ├── src/
-│   ├── data/
-│   │   ├── download_data.py
-│   │   └── preprocess.py
-│   ├── train.py
-│   └── predict.py
 ├── templates/
 ├── static/
 ├── db.sqlite3
@@ -217,6 +197,7 @@ projeto/
 ├── README.md
 └── manage.py
 ```
+
 Essa estrutura deixa claro:
 
 - quais arquivos são base do treinamento
@@ -224,7 +205,6 @@ Essa estrutura deixa claro:
 - quais arquivos são gerados pelo preprocessamento
 - onde ficam os artefatos do modelo
 - onde fica o banco de dados
-- onde fica o script responsável pelo download automático dos datasets
 
 ## 9. Uso do banco de dados no projeto
 
@@ -263,24 +243,22 @@ Atualmente, o banco de dados é utilizado principalmente para:
 
 Assim, sempre que uma previsão é realizada com sucesso, seus principais dados podem ser armazenados para consulta futura.
 
-### 11.1 Superusuário no Django Admin
+## 11.1 Superusuário no Django Admin
 
 A forma mais simples de consultar o banco para testes é criar um superusuário e acessar o painel administrativo do Django.
 
 O superusuário permite acessar:
-```
+
 /admin
-```
-### 11.2 Shell do Django
+
+## 11.2 Shell do Django
 
 Também é possível verificar o banco pelo terminal, usando o shell do Django:
-
-```bash
-python manage.py shell
 ```
+python manage.py shell
+
 Exemplo de verificação:
 
-```bash
 from django.db import connection
 from previsao.models import HistoricoPrevisao
 from django.contrib.auth.models import User
@@ -292,9 +270,8 @@ print("Tabelas:", cursor.fetchall())
 print("Quantidade no histórico:", HistoricoPrevisao.objects.count())
 print("Histórico:", list(HistoricoPrevisao.objects.all()[:5]))
 print("Usuários:", list(User.objects.values("id", "username", "email", "is_superuser")))
-```
-
-### 11.3 Evolução futura
+``` 
+## 11.3 Evolução futura
 
 No futuro, o sistema também pode ganhar uma tela própria para exibir o histórico das previsões dentro da própria aplicação, sem depender do admin.
 
@@ -306,17 +283,16 @@ Em resumo:
 
 - os datasets principais continuam sendo usados no treinamento do modelo
 - os datasets auxiliares melhoram a interface
-- o projeto passou a utilizar um script de download automático dos arquivos necessários
-- o Google Drive funciona como fonte dos datasets, mas o sistema continua operando localmente
-- o preprocessamento, o treinamento e a execução da aplicação continuam acontecendo na máquina do usuário
+- a solução local segue a mesma lógica da solução distribuída, mudando apenas a forma de obtenção dos arquivos
+quem clonar o projeto pelo GitHub precisará baixar os arquivos de DatasetInfo, enquanto os principais foram disponibilizados com Git LFS
 - o sistema roda localmente, sem depender de API externa
+- o Google Drive pode ser usado apenas como apoio para disponibilizar arquivos auxiliares
 - o banco de dados foi incorporado de forma simples para armazenar o histórico das previsões
+
 
 ## 📌 Observações
 
 Atualmente, o projeto já utiliza a pasta DatasetInfo para melhorar a interface, permitindo que o usuário selecione descrições legíveis em vez de preencher apenas IDs numéricos.
-
-Além disso, o sistema já conta com banco de dados para armazenamento e consulta do histórico de previsões.
 
 Como possibilidades futuras, o projeto pode evoluir com:
 
