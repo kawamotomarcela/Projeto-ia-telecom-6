@@ -1,0 +1,34 @@
+{% extends "admin/base.html" %}
+{% load static %}
+
+{% block title %}Painel Administrativo | Predição de Tempo{% endblock %}
+
+{% block extrastyle %}
+    {{ block.super }}
+    <link rel="stylesheet" href="{% static 'css/admin/variables.css' %}">
+    <link rel="stylesheet" href="{% static 'css/admin/base.css' %}">
+    <link rel="stylesheet" href="{% static 'css/admin/header.css' %}">
+    <link rel="stylesheet" href="{% static 'css/admin/dashboard.css' %}">
+    <link rel="stylesheet" href="{% static 'css/admin/changelist.css' %}">
+    <link rel="stylesheet" href="{% static 'css/admin/responsive.css' %}">
+{% endblock %}
+
+{% block branding %}
+    <div class="custom-branding">
+        <h1 id="site-name">
+            <a href="{% url 'admin:index' %}">Painel Administrativo - Predição de Tempo - Ordem de serviço Telecom</a>
+        </h1>
+        <p class="custom-branding-subtitle">
+            Gerencie o histórico de previsões e acompanhe os dados do sistema.
+        </p>
+    </div>
+{% endblock %}
+
+{% block nav-global %}
+    <div class="admin-top-links">  
+        <a href="{% url 'admin:previsao_historicoprevisao_changelist' %}" class="admin-top-btn secondary">
+            Histórico de previsões
+        </a>
+         <a href="/" class="admin-top-btn admin-top-btn-danger">Voltar para o sistema</a>
+    </div>
+{% endblock %}

@@ -1,0 +1,34 @@
+{% extends "admin/base_site.html" %}
+
+{% block content %}
+<div class="admin-dashboard">
+    <div class="admin-hero">
+        <h2>Painel de Previsões</h2>
+        <p>
+            Este painel permite visualizar e administrar o histórico das previsões
+            geradas pela aplicação.
+        </p>
+    </div>
+
+    <div class="admin-card-grid">
+        <div class="admin-card">
+            <h3>Histórico</h3>
+            <p>Consulte todas as previsões salvas no banco de dados.</p>
+        </div>
+
+        <div class="admin-card">
+            <h3>Filtros</h3>
+            <p>Pesquise por produto, tipo de atendimento, defeitos e datas.</p>
+        </div>
+
+        <div class="admin-card">
+            <h3>Administração</h3>
+            <p>Use o painel para acompanhar os registros e validar os testes realizados.</p>
+        </div>
+    </div>
+</div>
+
+<div class="admin-module-wrapper">
+    {% include "admin/app_list.html" with app_list=app_list show_changelinks=True %}
+</div>
+{% endblock %}

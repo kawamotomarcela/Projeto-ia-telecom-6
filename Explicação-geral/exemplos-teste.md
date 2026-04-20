@@ -1,11 +1,14 @@
 # Exemplos de Dados para Teste do Sistema
 
-Este arquivo apresenta **3 exemplos reais e simples** que podem ser utilizados para testar o sistema de **Predição de Tempo de Resolução de Ordens de Serviço**.
+Este arquivo apresenta **3 exemplos de teste mais completos** para o sistema de **Predição de Tempo de Resolução de Ordens de Serviço**.
 
-Os valores foram montados com base nos datasets do projeto:
+Os exemplos abaixo utilizam valores já confirmados no projeto para:
 
-- `export_os_defeito_solucao.csv`
-- `export_produtos.csv`
+- `tipo_atendimento_id`
+- `produto_id`
+- `defeito_constatado_id`
+
+Nos campos de **defeito reclamado** e **solução**, a recomendação é selecionar uma opção **real disponível na própria lista do sistema**, para que o teste fique mais completo e sem depender de campos vazios.
 
 ---
 
@@ -15,25 +18,16 @@ Atualmente, o sistema funciona da seguinte forma:
 
 - **Tipo de Atendimento**: selecionar uma opção existente na lista
 - **Produto (ID)**: informar manualmente um `produto_id` que exista em `export_produtos.csv`
-- **Defeito Reclamado**: pode ficar vazio, caso não exista informação
+- **Defeito Reclamado**: selecionar uma opção real da lista, quando desejar um teste mais completo
 - **Defeito Constatado**: selecionar uma opção existente na lista
-- **Solução**: pode ficar vazia, caso não exista informação
+- **Solução**: selecionar uma opção real da lista, quando desejar um teste mais completo
 - **Data de Abertura**: informar uma data válida
-
-### Observação importante
-
-Nos dados analisados, muitos registros possuem campos vazios para:
-
-- defeito reclamado
-- solução
-
-Por isso, nos testes abaixo, esses campos podem ser deixados em branco sem problema.
 
 ---
 
-# Exemplo 1
+## Exemplo 1 — Teste simples e confiável
 
-## Preenchimento
+### Preenchimento
 
 **Tipo de Atendimento**  
 252
@@ -42,28 +36,32 @@ Por isso, nos testes abaixo, esses campos podem ser deixados em branco sem probl
 414898
 
 **Defeito Reclamado**  
-Deixar vazio
+Selecionar uma opção real da lista do sistema
 
 **Defeito Constatado**  
 26826 - Reator queimado
 
 **Solução**  
-Deixar vazio
+Selecionar uma opção real da lista do sistema
 
 **Data de Abertura**  
 2022-01-01
 
-## Explicação
+### Objetivo do teste
 
-Este é um dos testes mais simples para começar.  
-Ele usa um `produto_id` real e um `defeito_constatado_id` real encontrado nos datasets.  
-É uma boa opção para validar se o sistema está funcionando corretamente.
+Este é um teste inicial mais seguro, usando um produto confirmado e um defeito constatado confirmado.  
+É indicado para validar se:
+
+- o formulário aceita os dados
+- o produto existe na base
+- a previsão é gerada corretamente
+- os campos opcionais também podem ser utilizados
 
 ---
 
-# Exemplo 2
+## Exemplo 2 — Teste com outro produto e outro defeito
 
-## Preenchimento
+### Preenchimento
 
 **Tipo de Atendimento**  
 252
@@ -72,27 +70,32 @@ Ele usa um `produto_id` real e um `defeito_constatado_id` real encontrado nos da
 414204
 
 **Defeito Reclamado**  
-Deixar vazio
+Selecionar uma opção real da lista do sistema
 
 **Defeito Constatado**  
 28640 - Controlador com defeito
 
 **Solução**  
-Deixar vazio
+Selecionar uma opção real da lista do sistema
 
 **Data de Abertura**  
 2022-01-01
 
-## Explicação
+### Objetivo do teste
 
-Este exemplo também utiliza uma combinação real encontrada na base.  
-Ele é útil para testar outro produto e outro defeito constatado, sem alterar a estrutura básica do preenchimento.
+Este exemplo ajuda a verificar se o sistema continua funcionando corretamente com outra combinação de produto e defeito.
+
+É útil para testar:
+
+- variação de produto
+- variação de defeito constatado
+- preenchimento mais completo do formulário
 
 ---
 
-# Exemplo 3
+## Exemplo 3 — Teste com data diferente
 
-## Preenchimento
+### Preenchimento
 
 **Tipo de Atendimento**  
 252
@@ -101,46 +104,54 @@ Ele é útil para testar outro produto e outro defeito constatado, sem alterar a
 414698
 
 **Defeito Reclamado**  
-Deixar vazio
+Selecionar uma opção real da lista do sistema
 
 **Defeito Constatado**  
 41384 - Micromotor evaporador solto
 
 **Solução**  
-Deixar vazio
+Selecionar uma opção real da lista do sistema
 
 **Data de Abertura**  
 2022-01-02
 
-## Explicação
+### Objetivo do teste
 
-Este exemplo ajuda a testar o sistema com outra data de abertura e outro defeito constatado real.  
-É interessante para verificar se o sistema continua funcionando bem com combinações diferentes de entrada.
+Este exemplo é interessante para verificar o comportamento do sistema com:
+
+- outro produto confirmado
+- outro defeito confirmado
+- outra data de abertura
+
+Assim, ele ajuda a validar se a geração das features de data está funcionando corretamente.
 
 ---
 
-# Resumo dos valores usados
+## Valores confirmados usados nos testes
 
-## Tipo de Atendimento
+### Tipo de Atendimento
 - 252
 
-## Produtos (ID)
+### Produtos (ID)
 - 414898
 - 414204
 - 414698
 
-## Defeitos Constatados
+### Defeitos Constatados
 - 26826 — Reator queimado
 - 28640 — Controlador com defeito
 - 41384 — Micromotor evaporador solto
 
 ---
 
-# Recomendação de Teste
+## Recomendação de uso
 
-Se for seu primeiro teste, comece pelo **Exemplo 1**.  
-Ele é o mais direto e serve bem para confirmar se:
+Para testes mais completos, o ideal é:
 
-- o formulário está aceitando os dados
-- o produto existe na base
-- o modelo está conseguindo gerar a previsão
+- manter os `produto_id` e `defeito_constatado_id` confirmados
+- preencher também **defeito reclamado** e **solução** escolhendo valores reais da lista do sistema
+- variar a data de abertura entre os exemplos
+
+Se for o primeiro teste, comece pelo **Exemplo 1**.
+
+Se quiser testar mais a interface, use o **Exemplo 2** e o **Exemplo 3** preenchendo todos os campos disponíveis.

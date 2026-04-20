@@ -6,19 +6,25 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Predição de Tempo de Resolução</title>
 
-    <link rel="stylesheet" href="{% static 'css/base.css' %}">
-    <link rel="stylesheet" href="{% static 'css/layout.css' %}">
-    <link rel="stylesheet" href="{% static 'css/form.css' %}">
-    <link rel="stylesheet" href="{% static 'css/result.css' %}">
+    <link rel="stylesheet" href="{% static 'css/home/base.css' %}">
+    <link rel="stylesheet" href="{% static 'css/home/layout.css' %}">
+    <link rel="stylesheet" href="{% static 'css/home/form.css' %}">
+    <link rel="stylesheet" href="{% static 'css/home/result.css' %}">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tom-select/dist/css/tom-select.css">
-    <link rel="stylesheet" href="{% static 'css/tom-select-custom.css' %}">
+    <link rel="stylesheet" href="{% static 'css/home/tom-select-custom.css' %}">
 </head>
 <body>
     <main class="app-shell">
         <section class="page-card">
             <header class="hero-section">
                 <div class="hero-content">
-                    <span class="badge">Machine Learning + Django</span>
+                    <div class="hero-top-row">
+                        <span class="badge">Machine Learning + Django</span>
+
+                        <a href="/admin/" class="btn-admin">
+                            Acessar painel administrativo
+                        </a>
+                    </div>
 
                     <h1>Predição de Tempo de Resolução de Ordens de Serviço</h1>
 

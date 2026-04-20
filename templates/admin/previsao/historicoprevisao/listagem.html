@@ -1,0 +1,20 @@
+{% extends "admin/change_list.html" %}
+
+{% block content_title %}
+    <div class="custom-admin-title">
+        <h1>Histórico de Previsões</h1>
+        <p>
+            Aqui são exibidas as previsões realizadas pelo sistema, com os dados principais
+            da Ordem de Serviço, resultado estimado em horas e data de criação do registro.
+        </p>
+    </div>
+{% endblock %}
+
+{% block object-tools-items %}
+    <li>
+        <a href="/" class="history-back-btn">
+            Voltar para o sistema
+        </a>
+    </li>
+    {{ block.super }}
+{% endblock %}

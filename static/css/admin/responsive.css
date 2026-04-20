@@ -1,0 +1,63 @@
+@media (max-width: 1024px) {
+    #content {
+        padding: 18px;
+    }
+
+    .admin-hero {
+        padding: 22px;
+    }
+
+    .admin-card-grid {
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    }
+}
+
+@media (max-width: 768px) {
+    .admin-top-links {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .admin-hero-actions {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .admin-action-btn,
+    .admin-top-btn {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .admin-hero h2,
+    .custom-admin-title h1 {
+        font-size: 24px;
+    }
+
+    #content {
+        padding: 14px;
+    }
+
+    div.breadcrumbs {
+        padding: 10px 14px;
+        font-size: 13px;
+    }
+}
+
+@media (max-width: 640px) {
+    .admin-card-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .admin-hero {
+        padding: 18px;
+    }
+
+    .admin-card {
+        padding: 18px;
+    }
+
+    .custom-branding-subtitle {
+        font-size: 12px;
+    }
+}
