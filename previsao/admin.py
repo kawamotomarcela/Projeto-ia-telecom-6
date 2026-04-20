@@ -8,20 +8,30 @@ class HistoricoPrevisaoAdmin(admin.ModelAdmin):
         "id",
         "produto_id",
         "tipo_atendimento_id",
+        "defeito_constatado_id",
         "resultado_horas",
         "data_abertura",
         "criado_em",
     )
+
     list_filter = (
         "tipo_atendimento_id",
         "data_abertura",
         "criado_em",
     )
+
     search_fields = (
-        "produto_id",
-        "tipo_atendimento_id",
-        "defeito_reclamado_id",
-        "defeito_constatado_id",
-        "solucao_id",
+        "=produto_id",
+        "=tipo_atendimento_id",
+        "=defeito_reclamado_id",
+        "=defeito_constatado_id",
+        "=solucao_id",
     )
+
+    readonly_fields = (
+        "criado_em",
+    )
+
     ordering = ("-criado_em",)
+    list_per_page = 25
+    date_hierarchy = "criado_em"

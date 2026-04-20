@@ -122,10 +122,9 @@ O arquivo gerado será:
 ```bash
 Dataset/processed/dados_tratados.csv
 ```
-## 7️⃣ Treinar o Modelo de Machine Learning
+## 7️⃣ Treinar o Modelo Oficial
 
 Após gerar o dataset tratado, execute:
-
 ```bash
 python src/train.py
 ```
@@ -134,7 +133,7 @@ Esse script irá:
 - carregar o dataset tratado
 - separar as variáveis de entrada e saída
 - dividir os dados em treino e teste
-- treinar o modelo de Machine Learning
+- treinar o modelo oficial do projeto
 - avaliar o modelo
 - salvar os arquivos do modelo
 
@@ -142,10 +141,42 @@ Os arquivos gerados serão:
 ```
 models/modelo_tempo_os.pkl
 models/colunas_modelo.pkl
-Zzcwagfteqgtqea```
+``` 
+
 Esses arquivos são utilizados posteriormente pelo Django para gerar previsões.
 
-## 8️⃣ Configurar o Django
+## 8️⃣ Experimentos com Outros Modelos
+
+Além do modelo oficial, o projeto também possui uma etapa de experimentos comparativos com diferentes abordagens de regressão.
+
+Os modelos considerados são:
+
+Random Forest
+XGBoost
+NN (Rede Neural com MLPRegressor)
+
+Para executar os testes comparativos, utilize:
+```bash
+python src/train_experimentos.py
+``` 
+Esse script tem como objetivo:
+
+- comparar diferentes modelos de regressão
+- medir desempenho com as mesmas features
+- registrar resultados para análise
+- apoiar a escolha do melhor modelo para o projeto
+
+Os resultados dos experimentos serão salvos em:
+``` 
+models/resultados_experimentos.json
+``` 
+### Observação importante
+
+- O uso de train_experimentos.py não substitui automaticamente o modelo principal do sistema.
+
+- O modelo oficial do projeto continua sendo aquele salvo por train.py, pois ele representa a melhor versão escolhida para integração com a aplicação web.
+
+## 9️⃣ Configurar o Django
 
 Execute as migrações do banco de dados:
 ```bash
@@ -153,7 +184,7 @@ python manage.py makemigrations
 python manage.py migrate
 ```
 
-## 9️⃣ Rodar o Servidor
+## 🔟 Rodar o Servidor
 
 ```bash
 python manage.py runserver
@@ -168,6 +199,7 @@ A interface permitirá inserir os dados da Ordem de Serviço e gerar a previsão
 # ✔️ Resumo Rápido
 
 Windows (CMD)
+
 ```bash
 python -m venv venv
 venv\Scripts\activate
@@ -175,12 +207,14 @@ pip install -r requirements.txt
 python src/data/download_data.py
 python src/data/preprocess.py
 python src/train.py
+python src/train_experimentos.py
 python manage.py makemigrations
 python manage.py migrate
 python manage.py runserver
 ```
 
 Linux / Mac
+
 ```bash
 python3 -m venv venv
 source venv/bin/activate
@@ -188,42 +222,8 @@ pip install -r requirements.txt
 python src/data/download_data.py
 python src/data/preprocess.py
 python src/train.py
+python src/train_experimentos.py
 python manage.py makemigrations
 python manage.py migrate
 python manage.py runserver
-```
-## 🗄️ Banco de Dados
-
-O projeto utiliza banco de dados SQLite por meio do Django.
-
-O arquivo do banco é:
-```
-db.sqlite3
-```
-Atualmente, o banco é utilizado principalmente para:
-
-- armazenar o histórico das previsões realizadas
-- manter os dados internos do Django, como autenticação e sessões
-- permitir consulta administrativa pelo Django Admin
-
-## 🔐 Acesso ao Admin do Django
-
-Caso queira visualizar o histórico salvo no banco, crie um superusuário com:
-
-```bash
-python manage.py createsuperuser
-```
-
-Sugestão para testes
-```
-Usuário: admintrator
-
-Email: admin@teste.com
-
-Senha: Superuser123!
-```
-
-Depois, com o servidor rodando, acesse:
-```
-http://127.0.0.1:8000/admin
 ```

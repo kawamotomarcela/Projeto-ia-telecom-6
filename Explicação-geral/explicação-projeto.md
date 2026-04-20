@@ -1,53 +1,24 @@
-# Estratégia de Organização dos Dados e Uso do Banco de Dados no Projeto de Predição de Tempo de Resolução de Ordens de Serviço
+# Estratégia de Organização dos Dados, Modelagem e Uso do Banco de Dados no Projeto de Predição de Tempo de Resolução de Ordens de Serviço
 
 ## 1. Introdução
 
 Este projeto tem como objetivo prever o tempo necessário para a resolução de Ordens de Serviço por meio de um modelo de *Machine Learning* integrado a uma aplicação web desenvolvida em Django.
 
-Durante o desenvolvimento, verificou-se que o sistema depende de dois grupos principais de informação:
+Durante o desenvolvimento, verificou-se que o sistema depende de três frentes principais:
 
 - **dados usados no treinamento do modelo**
 - **dados auxiliares usados para melhorar a interface**
+- **banco de dados local para armazenar o histórico das previsões**
 
-Além disso, foi adicionado um **banco de dados local** para armazenar o **histórico das previsões realizadas**, tornando o sistema mais completo e permitindo consultas posteriores.
+Além disso, o projeto também passou a incluir uma etapa de **testes comparativos entre modelos de regressão**, permitindo avaliar alternativas antes de definir qual modelo seria utilizado como principal no sistema.
 
-Assim, foi necessário definir uma estratégia que permitisse:
+## 2. Organização dos datasets
 
-- organizar corretamente os datasets
-- executar o sistema localmente
-- facilitar a obtenção dos arquivos necessários
-- utilizar o banco de dados de forma simples e funcional
+Os arquivos utilizados no projeto podem ser divididos em três grupos.
 
----
+### 2.1 Datasets principais
 
-## 2. Datasets identificados no projeto
-
-Com base nos arquivos analisados, o projeto possui os seguintes datasets:
-
-- `export_tipos_atendimento.csv`
-- `export_solucoes.csv`
-- `export_resumo_produto.csv`
-- `export_produtos.csv`
-- `export_pecas_por_os.csv`
-- `export_os_sem_pecas.csv`
-- `export_os_defeito_solucao.csv`
-- `export_os_base.csv`
-- `export_diagnosticos.csv`
-- `export_defeitos_reclamados.csv`
-- `export_defeitos_os.csv`
-- `export_defeitos_constatados.csv`
-
-Esses arquivos não possuem a mesma função dentro da solução. Alguns são necessários para o treinamento do modelo, enquanto outros servem principalmente para deixar a interface mais compreensível ao usuário.
-
----
-
-## 3. Classificação recomendada dos datasets
-
-Para manter o projeto bem organizado, a divisão mais adequada é em três grupos.
-
-### 3.1 Datasets principais
-
-São os arquivos utilizados diretamente no pipeline de *Machine Learning*:
+São os arquivos utilizados diretamente no pipeline principal de *Machine Learning*:
 
 - `export_os_defeito_solucao.csv`
 - `export_produtos.csv`
@@ -62,20 +33,20 @@ Esses arquivos concentram as informações mais importantes da Ordem de Serviço
 - solução
 - tempo de resolução
 
-### 3.2 Datasets auxiliares da interface
+### 2.2 Datasets auxiliares da interface
 
-São os arquivos usados para substituir IDs numéricos por descrições legíveis:
+São os arquivos usados para substituir IDs numéricos por descrições legíveis no formulário:
 
 - `export_tipos_atendimento.csv`
 - `export_solucoes.csv`
 - `export_defeitos_reclamados.csv`
 - `export_defeitos_constatados.csv`
 
-Esses arquivos não precisam participar diretamente do treinamento do modelo, mas são fundamentais para tornar a interface mais intuitiva.
+Esses arquivos não são a base principal do treinamento, mas tornam a aplicação mais compreensível e intuitiva para o usuário.
 
-### 3.3 Datasets de apoio analítico
+### 2.3 Datasets de apoio analítico
 
-São arquivos que podem ser aproveitados futuramente para enriquecer o modelo ou ampliar análises:
+São arquivos que podem ser utilizados futuramente para enriquecer o modelo ou ampliar análises:
 
 - `export_pecas_por_os.csv`
 - `export_os_sem_pecas.csv`
@@ -84,11 +55,9 @@ São arquivos que podem ser aproveitados futuramente para enriquecer o modelo ou
 - `export_defeitos_os.csv`
 - `export_resumo_produto.csv`
 
-Esses dados podem contribuir para uma evolução futura do projeto, caso se queira criar novas variáveis ou análises complementares.
-
 ---
 
-## 4. Problema inicial do sistema
+## 3. Problema inicial do sistema
 
 Na versão inicial, o sistema exigia que o usuário preenchesse vários campos usando apenas IDs numéricos, como:
 
@@ -98,97 +67,81 @@ Na versão inicial, o sistema exigia que o usuário preenchesse vários campos u
 - `defeito_constatado_id`
 - `solucao_id`
 
-Embora isso funcione tecnicamente para o modelo, não é adequado para o usuário final, pois números isolados não comunicam significado.
+Embora isso funcionasse tecnicamente para o modelo, não era adequado para o usuário final, pois números isolados não comunicam significado.
 
-Isso causava três problemas principais:
+Isso causava problemas como:
 
 - preenchimento pouco intuitivo
 - maior chance de erro
 - pior experiência de uso
+- dificuldade de apresentação do sistema
 
 ---
 
-## 5. Por que API não foi adotada como solução principal
-
-Uma possibilidade considerada foi utilizar uma API para buscar, em tempo real, as descrições associadas aos IDs.
-
-Essa solução poderia funcionar, mas não foi adotada como solução principal porque:
-
-- aumentaria a complexidade sem necessidade
-- criaria dependência de internet e de serviço externo
-- dificultaria a execução local em apresentações
-- não traria ganho proporcional, já que os dados já existem em arquivos locais
-
-Dessa forma, embora o uso de API possa ser válido em sistemas maiores, ele não representa a melhor escolha para a versão atual deste projeto.
-
----
-
-## 6. Solução adotada
-
-A solução adotada foi organizar os dados por função e utilizá-los localmente no projeto, mas com uma melhoria importante: **o download dos datasets passou a ser automatizado por script**.
-
-Na prática, isso significa:
-
-1. baixar os arquivos necessários diretamente do Google Drive por meio de um script
-2. armazenar esses arquivos automaticamente dentro da pasta `Dataset/`
-3. manter os datasets principais para o pipeline de *Machine Learning*
-4. utilizar os datasets auxiliares apenas para melhorar a interface
-5. gerar localmente o dataset tratado
-6. treinar o modelo e salvar seus artefatos
-7. usar banco de dados local para guardar o histórico das previsões
-
-Essa abordagem foi escolhida porque equilibra:
-
-- simplicidade
-- clareza
-- portabilidade
-- estabilidade
-- facilidade de apresentação
-
----
-
-## 7. Obtenção dos arquivos no ambiente local
+## 4. Obtenção dos arquivos no ambiente local
 
 Atualmente, o projeto não depende de o usuário organizar manualmente todos os arquivos antes de começar.
 
 A obtenção dos dados funciona por meio do script:
 
 ```bash
-src/data/download_data.py
+python src/data/download_data.py
 ```
 Esse script acessa a pasta disponibilizada no Google Drive e baixa automaticamente os arquivos necessários, organizando-os na estrutura esperada pelo sistema.
 
-Dessa forma:
+## 5. Modelo principal e testes comparativos
 
-- o usuário não precisa baixar e mover cada arquivo manualmente
-- os arquivos principais e auxiliares são colocados nos locais corretos
-- o restante do projeto continua funcionando localmente, a partir desses arquivos
+O projeto foi estruturado com duas frentes de modelagem.
 
-### 7.1 Como isso funciona na prática
+## 5.1 Modelo principal
 
-O fluxo atual do projeto é:
+O modelo principal é aquele utilizado pela aplicação web para gerar previsões ao usuário.
 
-- executar o script de download
-- gerar o dataset tratado
-- treinar o modelo
-- rodar a aplicação Django
+Ele é treinado por meio do arquivo:
+```bash
+python src/train.py
+```
+Esse modelo é o modelo oficial do sistema, ou seja, é o que alimenta o Django e gera os arquivos utilizados pela previsão.
 
-Ou seja, o Google Drive agora funciona como fonte dos arquivos, enquanto o sistema continua operando localmente após o download.
+Arquivos gerados:
+```
+models/modelo_tempo_os.pkl
+models/colunas_modelo.pkl
+```
+## 5.2 Testes comparativos
 
-### 7.2 Vantagem dessa abordagem
+Além do modelo principal, o projeto também possui uma etapa de experimentos com diferentes modelos de regressão, com o objetivo de comparar desempenho e justificar tecnicamente a escolha do modelo final.
 
-Essa solução melhora o projeto porque:
-
-- reduz o trabalho manual de quem vai executar
-- evita erros de organização de arquivos
-- mantém o sistema local e estável
-- não obriga a aplicação a consultar o Drive em tempo real durante o uso
-
-## 8. Estrutura recomendada
-
-A organização recomendada do projeto é a seguinte:
+Esses testes são executados por meio do arquivo:
 
 ```bash
+python src/train_experimentos.py
+```
+
+Os modelos avaliados são:
+
+- Random Forest
+- XGBoost
+- NN (Rede Neural com MLPRegressor)
+
+Os resultados dos testes são salvos em:
+```
+models/resultados_experimentos.json
+```
+## 5.3 Finalidade dos experimentos
+
+Os experimentos não substituem automaticamente o modelo principal do sistema.
+Sua função é:
+
+- comparar abordagens diferentes
+- medir desempenho com a mesma base
+- justificar a escolha do modelo oficial
+- registrar tentativas de melhoria
+
+Essa separação foi adotada para garantir que o sistema continue estável, mesmo enquanto outros modelos são testados.
+
+## 6. Estrutura recomendada do projeto
+```
 projeto/
 ├── Dataset/
 │   ├── export_os_defeito_solucao.csv
@@ -202,13 +155,16 @@ projeto/
 │       └── dados_tratados.csv
 ├── models/
 │   ├── modelo_tempo_os.pkl
-│   └── colunas_modelo.pkl
+│   ├── colunas_modelo.pkl
+│   ├── resultados_experimentos.json
+│   └── modelo_randomforest_teste.pkl
 ├── previsao/
 ├── src/
 │   ├── data/
 │   │   ├── download_data.py
 │   │   └── preprocess.py
 │   ├── train.py
+│   ├── train_experimentos.py
 │   └── predict.py
 ├── templates/
 ├── static/
@@ -216,71 +172,52 @@ projeto/
 ├── requirements.txt
 ├── README.md
 └── manage.py
-```
-Essa estrutura deixa claro:
+``` 
 
-- quais arquivos são base do treinamento
-- quais arquivos servem para a interface
-- quais arquivos são gerados pelo preprocessamento
-- onde ficam os artefatos do modelo
-- onde fica o banco de dados
-- onde fica o script responsável pelo download automático dos datasets
+## 7. 🗄️ Banco de Dados
 
-## 9. Uso do banco de dados no projeto
+O projeto utiliza banco de dados SQLite por meio do Django.
 
-Além da organização dos datasets, o projeto também passou a utilizar banco de dados.
-
-Atualmente, o banco não substitui os arquivos CSV nem o modelo treinado. Sua função é complementar o sistema, armazenando o histórico das previsões realizadas.
-
-Ou seja:
-
-- os datasets continuam sendo a base do treinamento
-- o modelo continua sendo salvo em arquivo
-- o banco é usado para registrar o uso do sistema
-
-## 10. Qual banco de dados está sendo usado
-
-O projeto utiliza o banco de dados padrão do Django com SQLite.
-
-Isso significa que os dados ficam armazenados localmente no arquivo:
+O arquivo do banco é:
 ```
 db.sqlite3
 ```
-Essa escolha é adequada porque:
+Atualmente, o banco é utilizado principalmente para:
 
-- é simples de configurar
-- funciona bem localmente
-- não exige servidor externo
-- é suficiente para desenvolvimento, testes e apresentação
-
-## 11. O que está sendo salvo no banco e como consultar
-
-Atualmente, o banco de dados é utilizado principalmente para:
-
-- guardar o histórico das previsões realizadas
-- armazenar os dados internos do Django, como autenticação e sessões
+- armazenar o histórico das previsões realizadas
+- manter os dados internos do Django, como autenticação e sessões
 - permitir consulta administrativa pelo Django Admin
 
-Assim, sempre que uma previsão é realizada com sucesso, seus principais dados podem ser armazenados para consulta futura.
+## 🔐 Acesso ao Admin do Django
 
-### 11.1 Superusuário no Django Admin
-
-A forma mais simples de consultar o banco para testes é criar um superusuário e acessar o painel administrativo do Django.
-
-O superusuário permite acessar:
-```
-/admin
-```
-### 11.2 Shell do Django
-
-Também é possível verificar o banco pelo terminal, usando o shell do Django:
+Caso queira visualizar o histórico salvo no banco, crie um superusuário com:
 
 ```bash
+python manage.py createsuperuser
+```
+
+Sugestão para testes
+```
+Usuário: administrator
+
+Email: admin@teste.com
+
+Senha: Superuser123!
+```
+
+Depois, com o servidor rodando, acesse:
+```
+http://127.0.0.1:8000/admin
+```
+
+### 9.2 Shell do Django
+
+Também é possível verificar o banco pelo terminal, usando o shell do Django:
+```
 python manage.py shell
 ```
 Exemplo de verificação:
-
-```bash
+```
 from django.db import connection
 from previsao.models import HistoricoPrevisao
 from django.contrib.auth.models import User
@@ -293,35 +230,3 @@ print("Quantidade no histórico:", HistoricoPrevisao.objects.count())
 print("Histórico:", list(HistoricoPrevisao.objects.all()[:5]))
 print("Usuários:", list(User.objects.values("id", "username", "email", "is_superuser")))
 ```
-
-### 11.3 Evolução futura
-
-No futuro, o sistema também pode ganhar uma tela própria para exibir o histórico das previsões dentro da própria aplicação, sem depender do admin.
-
-## 12. Conclusão
-
-A solução adotada no projeto combina organização de dados, simplicidade de execução e possibilidade de evolução futura.
-
-Em resumo:
-
-- os datasets principais continuam sendo usados no treinamento do modelo
-- os datasets auxiliares melhoram a interface
-- o projeto passou a utilizar um script de download automático dos arquivos necessários
-- o Google Drive funciona como fonte dos datasets, mas o sistema continua operando localmente
-- o preprocessamento, o treinamento e a execução da aplicação continuam acontecendo na máquina do usuário
-- o sistema roda localmente, sem depender de API externa
-- o banco de dados foi incorporado de forma simples para armazenar o histórico das previsões
-
-## 📌 Observações
-
-Atualmente, o projeto já utiliza a pasta DatasetInfo para melhorar a interface, permitindo que o usuário selecione descrições legíveis em vez de preencher apenas IDs numéricos.
-
-Além disso, o sistema já conta com banco de dados para armazenamento e consulta do histórico de previsões.
-
-Como possibilidades futuras, o projeto pode evoluir com:
-
-- uso de API, caso seja necessário centralizar os dados auxiliares em um único serviço
-- uso de Sass/SCSS, caso a interface cresça e seja necessário organizar melhor os estilos
-- busca inteligente para produto
-- pipeline automático de treino
-- melhorias de UX e validação do modelo

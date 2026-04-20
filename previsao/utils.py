@@ -19,7 +19,7 @@ def _read_csv_safe(path: Path) -> pd.DataFrame:
         except Exception as exc:
             last_error = exc
 
-    raise last_error
+    raise ValueError(f"Não foi possível ler o arquivo {path}. Erro: {last_error}")
 
 
 def _normalize_text(value) -> str:
@@ -49,11 +49,11 @@ def _safe_int(value):
         return None
 
 
-def _build_choices(df: pd.DataFrame, id_col: str, desc_col: str, prefix: str = "ID"):
-    choices_map = {}
-
+def _build_choices(df: pd.DataFrame, id_col: str, desc_col: str, prefix: str):
     if id_col not in df.columns:
         return [("", "---------")]
+
+    choices_map = {}
 
     for _, row in df.iterrows():
         item_id = _safe_int(row.get(id_col))
@@ -65,7 +65,7 @@ def _build_choices(df: pd.DataFrame, id_col: str, desc_col: str, prefix: str = "
         choices_map[item_id] = label
 
     ordered = sorted(choices_map.items(), key=lambda item: item[1].lower())
-    return [("", "---------")] + ordered
+    return [("", "---------")] + [(item_id, label) for item_id, label in ordered]
 
 
 @lru_cache(maxsize=1)
@@ -80,25 +80,25 @@ def get_form_choices():
             tipos_df,
             "tipo_atendimento_id",
             "descricao",
-            "Tipo"
+            "Tipo",
         ),
         "solucoes": _build_choices(
             solucoes_df,
             "solucao_id",
             "descricao",
-            "Solução"
+            "Solução",
         ),
         "defeitos_reclamados": _build_choices(
             defeitos_reclamados_df,
             "defeito_reclamado_id",
             "descricao",
-            "Defeito reclamado"
+            "Defeito reclamado",
         ),
         "defeitos_constatados": _build_choices(
             defeitos_constatados_df,
             "defeito_constatado_id",
             "descricao",
-            "Defeito constatado"
+            "Defeito constatado",
         ),
     }
 
@@ -110,5 +110,10 @@ def get_produtos_df():
     for col in ["produto_id", "fabrica_id", "linha_id", "familia_id"]:
         if col in df.columns:
             df[col] = pd.to_numeric(df[col], errors="coerce")
+
+    if "produto_id" in df.columns:
+        df = df.dropna(subset=["produto_id"])
+        df["produto_id"] = df["produto_id"].astype(int)
+        df = df.drop_duplicates(subset=["produto_id"], keep="first")
 
     return df

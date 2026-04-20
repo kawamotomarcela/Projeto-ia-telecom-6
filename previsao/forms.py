@@ -11,8 +11,12 @@ class PrevisaoForm(forms.Form):
             "required": "Selecione o tipo de atendimento.",
             "invalid_choice": "Selecione uma opção válida.",
         },
-        widget=forms.Select(attrs={"class": "form-input"}),
-        help_text="Selecione o tipo de atendimento da OS."
+        widget=forms.Select(
+            attrs={
+                "class": "form-input",
+            }
+        ),
+        help_text="Selecione o tipo de atendimento da OS.",
     )
 
     produto_id = forms.IntegerField(
@@ -22,11 +26,13 @@ class PrevisaoForm(forms.Form):
             "required": "Informe o produto.",
             "invalid": "Digite um número válido.",
         },
-        widget=forms.NumberInput(attrs={
-            "class": "form-input",
-            "placeholder": "Ex: 414898",
-        }),
-        help_text="Por enquanto, informe manualmente o produto_id existente em export_produtos.csv."
+        widget=forms.NumberInput(
+            attrs={
+                "class": "form-input",
+                "placeholder": "Ex: 414898",
+            }
+        ),
+        help_text="Informe manualmente o produto_id existente em export_produtos.csv.",
     )
 
     defeito_reclamado_id = forms.TypedChoiceField(
@@ -35,8 +41,12 @@ class PrevisaoForm(forms.Form):
         choices=(),
         coerce=int,
         empty_value=0,
-        widget=forms.Select(attrs={"class": "form-input"}),
-        help_text="Opcional."
+        widget=forms.Select(
+            attrs={
+                "class": "form-input",
+            }
+        ),
+        help_text="Opcional.",
     )
 
     defeito_constatado_id = forms.TypedChoiceField(
@@ -45,8 +55,12 @@ class PrevisaoForm(forms.Form):
         choices=(),
         coerce=int,
         empty_value=0,
-        widget=forms.Select(attrs={"class": "form-input"}),
-        help_text="Opcional."
+        widget=forms.Select(
+            attrs={
+                "class": "form-input",
+            }
+        ),
+        help_text="Opcional.",
     )
 
     solucao_id = forms.TypedChoiceField(
@@ -55,8 +69,12 @@ class PrevisaoForm(forms.Form):
         choices=(),
         coerce=int,
         empty_value=0,
-        widget=forms.Select(attrs={"class": "form-input"}),
-        help_text="Opcional."
+        widget=forms.Select(
+            attrs={
+                "class": "form-input",
+            }
+        ),
+        help_text="Opcional.",
     )
 
     data_abertura = forms.DateField(
@@ -66,11 +84,13 @@ class PrevisaoForm(forms.Form):
             "required": "Informe a data de abertura.",
             "invalid": "Use uma data válida.",
         },
-        widget=forms.DateInput(attrs={
-            "class": "form-input",
-            "type": "date",
-        }),
-        help_text="A data será usada para gerar ano, mês, dia e dia da semana."
+        widget=forms.DateInput(
+            attrs={
+                "class": "form-input",
+                "type": "date",
+            }
+        ),
+        help_text="A data será usada para gerar ano, mês, dia e dia da semana.",
     )
 
     def __init__(self, *args, **kwargs):
@@ -82,16 +102,18 @@ class PrevisaoForm(forms.Form):
         self.fields["defeito_constatado_id"].choices = choices["defeitos_constatados"]
         self.fields["solucao_id"].choices = choices["solucoes"]
 
-    def clean(self):
-        cleaned_data = super().clean()
+    def clean_produto_id(self):
+        produto_id = self.cleaned_data.get("produto_id")
 
-        produto_id = cleaned_data.get("produto_id")
-        tipo_atendimento_id = cleaned_data.get("tipo_atendimento_id")
+        if produto_id is None or produto_id <= 0:
+            raise forms.ValidationError("O produto deve ser maior que zero.")
 
-        if produto_id is not None and produto_id <= 0:
-            self.add_error("produto_id", "O produto deve ser maior que zero.")
+        return produto_id
 
-        if tipo_atendimento_id is not None and tipo_atendimento_id <= 0:
-            self.add_error("tipo_atendimento_id", "O tipo de atendimento deve ser maior que zero.")
+    def clean_tipo_atendimento_id(self):
+        tipo_atendimento_id = self.cleaned_data.get("tipo_atendimento_id")
 
-        return cleaned_data
+        if tipo_atendimento_id is None or tipo_atendimento_id <= 0:
+            raise forms.ValidationError("O tipo de atendimento deve ser maior que zero.")
+
+        return tipo_atendimento_id

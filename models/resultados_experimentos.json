@@ -1,0 +1,24 @@
+{
+    "target": "tempo_resolucao_horas",
+    "quantidade_amostras": 1243232,
+    "quantidade_features": 12,
+    "melhor_modelo_experimentos": "RandomForest",
+    "resultados": {
+        "RandomForest": {
+            "MAE": 93.3418,
+            "RMSE": 290.9576,
+            "R2": 0.4951
+        },
+        "NN_MLPRegressor": {
+            "MAE": 124.144,
+            "RMSE": 390.0251,
+            "R2": 0.0927
+        },
+        "XGBoost": {
+            "MAE": 110.6385,
+            "RMSE": 334.3904,
+            "R2": 0.3331
+        }
+    },
+    "observacao": "Os experimentos não substituem automaticamente o modelo oficial do projeto. Servem apenas para comparação de desempenho."
+}
