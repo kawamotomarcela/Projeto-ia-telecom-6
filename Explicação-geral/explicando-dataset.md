@@ -1,188 +1,113 @@
+# Resumo dos dados usados no modelo
 
-# Problema Atual
+## Visão geral
 
-No sistema atual, diversos campos da interface são preenchidos utilizando apenas **IDs numéricos**, por exemplo:
+O modelo foi treinado usando, principalmente, dados de **dois datasets**:
 
-- `produto_id`
+- `export_os_defeito_solucao.csv`
+- `export_produtos.csv`
+
+Depois disso, essas informações passaram por um tratamento e geraram o arquivo final:
+
+- `dados_tratados.csv`
+
+É esse arquivo tratado que entra no treinamento do modelo.
+
+---
+
+## O que cada dataset faz
+
+### 1. `export_os_defeito_solucao.csv`
+Esse é o dataset principal da ordem de serviço.
+
+Dele saem informações como:
+
 - `tipo_atendimento_id`
+- `produto_id`
 - `defeito_reclamado_id`
 - `defeito_constatado_id`
 - `solucao_id`
+- `data_abertura`
+- `tempo_resolucao_horas` → **essa é a variável que o modelo tenta prever**
 
-Exemplo no formulário atual:
+### 2. `export_produtos.csv`
+Esse dataset complementa o principal com dados do produto.
 
-Defeito Constatado (ID)
-26826
+Ele é usado para trazer informações do item relacionado ao `produto_id`.
 
+Ou seja: ele ajuda o modelo a entender **qual produto está envolvido na OS**.
 
-Para o usuário final, esse valor **não possui significado claro**, pois o sistema não mostra a descrição associada ao ID.
+### 3. `dados_tratados.csv`
+Esse é o resultado final do pré-processamento.
 
-Isso causa alguns problemas:
+Nele ficam somente os dados já prontos para o treinamento, como:
 
-- Interface pouco intuitiva
-- Maior chance de erro de preenchimento
-- Necessidade de consultar o dataset manualmente
-
----
-
-# Proposta de Solução
-
-A proposta é criar uma pasta chamada:
-DatasetInfo
-
-
-Essa pasta conterá **datasets auxiliares que não foram utilizados no treinamento do modelo**, mas que possuem informações descritivas úteis.
-
-Esses dados serão utilizados para:
-
-- Melhorar a interface
-- Traduzir IDs em descrições compreensíveis
-- Criar listas de seleção (dropdown) no formulário
+- IDs das variáveis principais
+- informações derivadas da data de abertura
+- variável alvo (`tempo_resolucao_horas`)
 
 ---
 
-# Papel de Cada Dataset
+## Quais dados entram no modelo
 
-## export_tipos_atendimento.csv
+De forma simples, o modelo usa:
 
-Contém a descrição dos tipos de atendimento.
+- tipo de atendimento
+- produto
+- defeito reclamado
+- defeito constatado
+- solução
+- informações extraídas da data de abertura
+
+Esses dados ajudam o modelo a identificar padrões e estimar o tempo de resolução.
+
+---
+
+## Qual dado o modelo quer prever
+
+O modelo tenta prever:
+
+- `tempo_resolucao_horas`
+
+Ou seja, ele recebe as características da ordem de serviço e estima quantas horas aquela OS pode levar para ser resolvida.
+
+---
+
+## Por que usar esses dados
+
+Cada campo ajuda por um motivo:
+
+- **tipo de atendimento** → mostra o contexto da OS
+- **produto** → mostra qual equipamento está sendo atendido
+- **defeito reclamado** → mostra o problema informado pelo cliente
+- **defeito constatado** → mostra o problema real encontrado pelo técnico
+- **solução** → mostra o tipo de ação tomada
+- **data de abertura** → ajuda a capturar padrões de tempo relacionados ao dia, mês ou período
+
+---
+
+## O que fica só para a interface
+
+Os arquivos da pasta `DatasetInfo` **não precisam participar do treinamento**.
+
+Eles servem para deixar o sistema mais fácil de usar.
 
 Exemplo:
 
+em vez de mostrar:
 
-tipo_atendimento_id,descricao
-252,Garantia
-272,Manutenção corretiva
-273,Manutenção preventiva
-277,Visita técnica
+- `26826`
 
+o sistema pode mostrar:
 
-Pode ser utilizado para mostrar no formulário:
+- `Superaquecimento`
 
+Isso melhora muito a experiência do usuário.
 
-Tipo de Atendimento
-
-Garantia
-Manutenção corretiva
-Manutenção preventiva
-Visita técnica
-
-
-Internamente o sistema continuará enviando apenas o **ID correspondente**.
+Esses arquivos servem para transformar IDs em nomes compreensíveis.
 
 ---
 
-## export_solucoes.csv
+## Resumindo em uma frase
 
-Contém as soluções aplicadas nas ordens de serviço.
-
-Exemplo:
-
-
-solucao_id,descricao
-1,Troca de componente
-2,Atualização de software
-3,Limpeza técnica
-
-
-Pode ser utilizado para preencher o campo:
-
-
-Solução Aplicada
-
-
----
-
-## export_defeitos_reclamados.csv
-
-Contém os defeitos relatados pelo cliente.
-
-Exemplo:
-
-
-defeito_reclamado_id,descricao
-1001,Equipamento não liga
-1002,Ruído excessivo
-1003,Falha de funcionamento
-
-
----
-
-## export_defeitos_constatados.csv
-
-Contém os defeitos identificados durante o diagnóstico técnico.
-
-Exemplo:
-
-
-defeito_constatado_id,descricao
-26826,Superaquecimento
-28640,Falha elétrica
-41384,Ruído anormal
-
-
-Esse dataset é especialmente importante, pois os valores aparecem frequentemente no dataset principal.
-
----
-
-## export_diagnosticos.csv
-
-Contém informações adicionais sobre diagnósticos realizados nas ordens de serviço.
-
-Pode ser utilizado para enriquecer análises futuras ou gerar relatórios.
-
----
-
-## export_resumo_produto.csv
-
-Contém informações resumidas dos produtos.
-
-Pode ser utilizado para mostrar:
-
-- Nome do produto
-- Categoria
-- Família
-- Linha
-
-Isso permitiria substituir o campo:
-
-
-Produto (ID)
-
-
-por algo mais intuitivo como:
-
-
-Produto
-Geladeira Frost Free 450L
-Lavadora Automática 12kg
-Ar-condicionado Split 12000BTU
-
-
----
-
-# Integração com o Sistema
-
-Os datasets da pasta `DatasetInfo` **não precisam ser utilizados no treinamento do modelo**.
-
-Eles serão utilizados apenas para **melhorar a interface do usuário**.
-
-Fluxo sugerido:
-
-
-Usuário abre o formulário
-↓
-
-Django carrega os datasets da pasta DatasetInfo
-↓
-
-Campos do formulário são preenchidos com descrições
-↓
-
-Usuário seleciona a opção desejada
-↓
-
-Sistema envia o ID correspondente para o modelo
-↓
-
-Modelo realiza a previsão normalmente
+O modelo usa os **IDs e dados tratados** para fazer a previsão, enquanto os arquivos da pasta `DatasetInfo` servem para **traduzir esses IDs em descrições mais amigáveis na interface**.

@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="{% static 'css/admin/base.css' %}">
     <link rel="stylesheet" href="{% static 'css/admin/header.css' %}">
     <link rel="stylesheet" href="{% static 'css/admin/dashboard.css' %}">
-    <link rel="stylesheet" href="{% static 'css/admin/changelist.css' %}">
+    <link rel="stylesheet" href="{% static 'css/admin/listagem.css' %}">
     <link rel="stylesheet" href="{% static 'css/admin/responsive.css' %}">
 {% endblock %}
 
@@ -26,9 +26,16 @@
 
 {% block nav-global %}
     <div class="admin-top-links">  
+        <a href="{% url 'admin:index' %}" class="admin-top-btn">
+            Home
+        </a>
+
         <a href="{% url 'admin:previsao_historicoprevisao_changelist' %}" class="admin-top-btn secondary">
             Histórico de previsões
         </a>
-         <a href="/" class="admin-top-btn admin-top-btn-danger">Voltar para o sistema</a>
+
+        <a href="/" class="admin-top-btn admin-top-btn-danger">
+            Voltar para o sistema
+        </a>
     </div>
 {% endblock %}

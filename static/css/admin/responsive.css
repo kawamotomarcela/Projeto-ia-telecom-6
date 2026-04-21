@@ -10,12 +10,16 @@
     .admin-card-grid {
         grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
     }
+
+    .custom-admin-title {
+        padding: 18px;
+    }
 }
 
 @media (max-width: 768px) {
     .admin-top-links {
         flex-direction: column;
-        align-items: flex-start;
+        align-items: stretch;
     }
 
     .admin-hero-actions {
@@ -34,6 +38,10 @@
         font-size: 24px;
     }
 
+    .admin-card-number {
+        font-size: 26px;
+    }
+
     #content {
         padding: 14px;
     }
@@ -41,6 +49,10 @@
     div.breadcrumbs {
         padding: 10px 14px;
         font-size: 13px;
+    }
+
+    .custom-branding-subtitle {
+        font-size: 12px;
     }
 }
 
@@ -57,7 +69,17 @@
         padding: 18px;
     }
 
-    .custom-branding-subtitle {
-        font-size: 12px;
+    .custom-admin-title {
+        padding: 16px;
+    }
+
+    #changelist-filter {
+        border-left: none;
+        border-top: 1px solid var(--admin-border);
+        border-radius: 0 0 var(--admin-radius-lg) var(--admin-radius-lg);
+    }
+
+    #changelist-filter h2 {
+        border-radius: 0;
     }
 }

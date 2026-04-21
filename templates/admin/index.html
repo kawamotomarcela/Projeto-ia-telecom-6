@@ -11,19 +11,36 @@
     </div>
 
     <div class="admin-card-grid">
-        <div class="admin-card">
-            <h3>Histórico</h3>
-            <p>Consulte todas as previsões salvas no banco de dados.</p>
+        <div class="admin-card card-blue">
+            <h3>Total de Previsões</h3>
+            <p class="admin-card-number">{{ dashboard_stats.total_previsoes }}</p>
+            <p>Total de registros salvos no sistema.</p>
         </div>
 
-        <div class="admin-card">
-            <h3>Filtros</h3>
-            <p>Pesquise por produto, tipo de atendimento, defeitos e datas.</p>
+        <div class="admin-card card-green">
+            <h3>Previsões Hoje</h3>
+            <p class="admin-card-number">{{ dashboard_stats.previsoes_hoje }}</p>
+            <p>Quantidade de previsões registradas no dia atual.</p>
         </div>
 
-        <div class="admin-card">
-            <h3>Administração</h3>
-            <p>Use o painel para acompanhar os registros e validar os testes realizados.</p>
+        <div class="admin-card card-orange">
+            <h3>Tempo Médio Previsto</h3>
+            <p class="admin-card-number">
+                {{ dashboard_stats.tempo_medio|default:0|floatformat:2 }} h
+            </p>
+            <p>Média estimada de tempo de resolução.</p>
+        </div>
+
+        <div class="admin-card card-purple">
+            <h3>Última Previsão</h3>
+            <p class="admin-card-number">
+                {% if dashboard_stats.ultima_previsao %}
+                    {{ dashboard_stats.ultima_previsao.criado_em|date:"d/m/Y H:i" }}
+                {% else %}
+                    Sem registros
+                {% endif %}
+            </p>
+            <p>Data e horário do registro mais recente.</p>
         </div>
     </div>
 </div>

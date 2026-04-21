@@ -1,72 +1,73 @@
 #header {
-    background: linear-gradient(135deg, #0f172a, #1e3a8a 60%, #2563eb);
-    color: var(--admin-white);
+    background: var(--admin-header-bg);
+    color: var(--admin-header-text);
+    padding: 14px 18px;
     box-shadow: var(--admin-shadow-lg);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+#branding {
+    text-align: center;
+    margin-bottom: 10px;
 }
 
 #branding h1,
 #branding h1 a {
-    color: var(--admin-white) !important;
+    margin: 0;
+    color: var(--admin-header-text) !important;
+    text-decoration: none;
     font-weight: 800;
-    letter-spacing: -0.02em;
-}
-
-.custom-branding {
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
 }
 
 .custom-branding-subtitle {
-    margin: 0;
+    margin: 4px 0 0;
     font-size: 14px;
     color: rgba(255, 255, 255, 0.84);
 }
 
+#user-tools,
 .admin-top-links {
     display: flex;
-    gap: 10px;
+    justify-content: center;
     align-items: center;
-    padding: 8px 0 2px;
+    gap: 10px;
     flex-wrap: wrap;
 }
 
+#user-tools {
+    margin-top: 10px;
+    color: #fff;
+}
+
+#user-tools a,
 .admin-top-btn {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    padding: 10px 14px;
+    padding: 8px 14px;
     border-radius: var(--admin-radius-sm);
     text-decoration: none;
     font-weight: 700;
-    background: var(--admin-primary);
-    color: var(--admin-white) !important;
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    transition: var(--admin-transition);
-    box-shadow: 0 10px 22px rgba(37, 99, 235, 0.25);
+    color: #fff !important;
+    background: rgba(255, 255, 255, 0.14);
+    border: none;
 }
 
-.admin-top-btn:hover {
-    background: var(--admin-primary-dark);
-    transform: translateY(-1px);
+#user-tools a[href*="password"] {
+    background: #16a34a;
 }
 
-.admin-top-btn.secondary {
-    background: rgba(102, 255, 0, 0.14);
-    border: 1px solid rgba(43, 42, 42, 0.18);
-    box-shadow: none;
+#user-tools a[href*="logout"] {
+    background: #dc2626;
 }
 
-.admin-top-btn.secondary:hover {
-    background: rgba(255, 255, 255, 0.22);
+.admin-top-links {
+    margin-top: 12px;
+}
+
+.admin-top-btn-home {
+    background: #60a5fa;
 }
 
 .admin-top-btn-danger {
-    background: var(--admin-danger);
-    box-shadow: 0 10px 22px rgba(220, 38, 38, 0.25);
-}
-
-.admin-top-btn-danger:hover {
-    background: #b91c1c;
+    background: #dc2626;
 }
