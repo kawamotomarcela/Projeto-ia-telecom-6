@@ -1,33 +1,13 @@
 # Exemplos de Dados para Teste do Sistema
 
-Este arquivo apresenta **3 exemplos de teste mais completos** para o sistema de **Predição de Tempo de Resolução de Ordens de Serviço**.
+Abaixo estão **3 exemplos práticos** para testar o sistema de **Predição de Tempo de Resolução de Ordens de Serviço**.
 
-Os exemplos abaixo utilizam valores já confirmados no projeto para:
-
-- `tipo_atendimento_id`
-- `produto_id`
-- `defeito_constatado_id`
-
-Nos campos de **defeito reclamado** e **solução**, a recomendação é selecionar uma opção **real disponível na própria lista do sistema**, para que o teste fique mais completo e sem depender de campos vazios.
+Os campos **Defeito Reclamado** e **Solução** podem ser preenchidos com uma opção real da lista do sistema.  
+Se necessário, também podem ser deixados em branco.
 
 ---
 
-## Como preencher o formulário
-
-Atualmente, o sistema funciona da seguinte forma:
-
-- **Tipo de Atendimento**: selecionar uma opção existente na lista
-- **Produto (ID)**: informar manualmente um `produto_id` que exista em `export_produtos.csv`
-- **Defeito Reclamado**: selecionar uma opção real da lista, quando desejar um teste mais completo
-- **Defeito Constatado**: selecionar uma opção existente na lista
-- **Solução**: selecionar uma opção real da lista, quando desejar um teste mais completo
-- **Data de Abertura**: informar uma data válida
-
----
-
-## Exemplo 1 — Teste simples e confiável
-
-### Preenchimento
+## Exemplo 1
 
 **Tipo de Atendimento**  
 252
@@ -36,32 +16,22 @@ Atualmente, o sistema funciona da seguinte forma:
 414898
 
 **Defeito Reclamado**  
-Selecionar uma opção real da lista do sistema
+Sugestão: selecionar uma opção da lista relacionada a falha elétrica ou aquecimento  
+ou deixar em branco
 
 **Defeito Constatado**  
 26826 - Reator queimado
 
 **Solução**  
-Selecionar uma opção real da lista do sistema
+Sugestão: selecionar uma opção da lista relacionada a troca ou reparo  
+ou deixar em branco
 
 **Data de Abertura**  
 2022-01-01
 
-### Objetivo do teste
-
-Este é um teste inicial mais seguro, usando um produto confirmado e um defeito constatado confirmado.  
-É indicado para validar se:
-
-- o formulário aceita os dados
-- o produto existe na base
-- a previsão é gerada corretamente
-- os campos opcionais também podem ser utilizados
-
 ---
 
-## Exemplo 2 — Teste com outro produto e outro defeito
-
-### Preenchimento
+## Exemplo 2
 
 **Tipo de Atendimento**  
 252
@@ -70,32 +40,22 @@ Este é um teste inicial mais seguro, usando um produto confirmado e um defeito 
 414204
 
 **Defeito Reclamado**  
-Selecionar uma opção real da lista do sistema
+Sugestão: selecionar uma opção da lista relacionada a falha no controle ou funcionamento  
+ou deixar em branco
 
 **Defeito Constatado**  
 28640 - Controlador com defeito
 
 **Solução**  
-Selecionar uma opção real da lista do sistema
+Sugestão: selecionar uma opção da lista relacionada a substituição ou ajuste  
+ou deixar em branco
 
 **Data de Abertura**  
 2022-01-01
 
-### Objetivo do teste
-
-Este exemplo ajuda a verificar se o sistema continua funcionando corretamente com outra combinação de produto e defeito.
-
-É útil para testar:
-
-- variação de produto
-- variação de defeito constatado
-- preenchimento mais completo do formulário
-
 ---
 
-## Exemplo 3 — Teste com data diferente
-
-### Preenchimento
+## Exemplo 3
 
 **Tipo de Atendimento**  
 252
@@ -104,25 +64,22 @@ Este exemplo ajuda a verificar se o sistema continua funcionando corretamente co
 414698
 
 **Defeito Reclamado**  
-Selecionar uma opção real da lista do sistema
+Sugestão: selecionar uma opção da lista relacionada a ruído, soltura ou mau funcionamento  
+ou deixar em branco
 
 **Defeito Constatado**  
 41384 - Micromotor evaporador solto
 
 **Solução**  
-Selecionar uma opção real da lista do sistema
+Sugestão: selecionar uma opção da lista relacionada a fixação, troca ou manutenção  
+ou deixar em branco
 
 **Data de Abertura**  
 2022-01-02
 
-### Objetivo do teste
-
-Este exemplo é interessante para verificar o comportamento do sistema com:
-
-- outro produto confirmado
-- outro defeito confirmado
-- outra data de abertura
-
-Assim, ele ajuda a validar se a geração das features de data está funcionando corretamente.
-
 ---
+
+## Observação
+
+Para um teste mais completo, o ideal é preencher todos os campos com opções reais da lista.  
+Mas, se necessário, **Defeito Reclamado** e **Solução** podem ser deixados em branco.

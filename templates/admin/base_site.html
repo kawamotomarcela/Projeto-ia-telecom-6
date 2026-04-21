@@ -16,7 +16,9 @@
 {% block branding %}
     <div class="custom-branding">
         <h1 id="site-name">
-            <a href="{% url 'admin:index' %}">Painel Administrativo - Predição de Tempo - Ordem de serviço Telecom</a>
+            <a href="{% url 'admin:index' %}">
+               Admin - Predição de Tempo - Ordem de Serviço Telecom
+            </a>
         </h1>
         <p class="custom-branding-subtitle">
             Gerencie o histórico de previsões e acompanhe os dados do sistema.
@@ -24,9 +26,13 @@
     </div>
 {% endblock %}
 
+{% block usertools %}
+    {{ block.super }}
+{% endblock %}
+
 {% block nav-global %}
-    <div class="admin-top-links">  
-        <a href="{% url 'admin:index' %}" class="admin-top-btn">
+    <div class="admin-top-links">
+        <a href="{% url 'admin:index' %}" class="admin-top-btn admin-top-btn-home">
             Home
         </a>
 

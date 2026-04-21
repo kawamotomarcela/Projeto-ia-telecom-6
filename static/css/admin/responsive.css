@@ -1,36 +1,105 @@
-@media (max-width: 1024px) {
-    #content {
-        padding: 18px;
+@media (max-width: 1200px) {
+    #header {
+        display: block;
+        padding: 16px;
     }
 
-    .admin-hero {
-        padding: 22px;
+    #branding {
+        max-width: 100%;
+        margin-bottom: 12px;
+        text-align: left;
     }
 
-    .admin-card-grid {
-        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    .custom-branding {
+        align-items: flex-start;
     }
 
-    .custom-admin-title {
-        padding: 18px;
+    #user-tools,
+    .admin-top-links {
+        display: block;
+        width: 100%;
+        margin: 0 0 10px;
+    }
+
+    #user-tools > *,
+    .admin-top-links > * {
+        display: block !important;
+        width: 100%;
+        max-width: 100%;
+        margin: 0 0 8px;
+        box-sizing: border-box;
+    }
+
+    #logout-form {
+        display: block !important;
+        margin: 0 0 8px;
+        width: 100%;
+    }
+
+    #logout-form button,
+    #user-tools a,
+    .theme-toggle,
+    .admin-top-btn {
+        display: flex !important;
+        width: 100%;
+        max-width: 100%;
+        justify-content: center;
+        box-sizing: border-box;
     }
 }
 
 @media (max-width: 768px) {
+    #header {
+        display: block;
+        padding: 14px;
+    }
+
+    #branding h1,
+    #branding h1 a {
+        font-size: 18px;
+        line-height: 1.2;
+    }
+
+    .custom-branding-subtitle {
+        font-size: 11px;
+        line-height: 1.4;
+    }
+
+    #user-tools,
     .admin-top-links {
-        flex-direction: column;
-        align-items: stretch;
-    }
-
-    .admin-hero-actions {
-        flex-direction: column;
-        align-items: stretch;
-    }
-
-    .admin-action-btn,
-    .admin-top-btn {
+        display: block;
         width: 100%;
+    }
+
+    #user-tools > *,
+    .admin-top-links > * {
+        display: block !important;
+        width: 100%;
+        max-width: 100%;
+        margin: 0 0 8px;
+        box-sizing: border-box;
+    }
+
+    #logout-form {
+        display: block !important;
+        width: 100%;
+        margin: 0 0 8px;
+    }
+
+    #logout-form button,
+    #user-tools a,
+    .theme-toggle,
+    .admin-top-btn {
+        display: flex !important;
+        width: 100%;
+        max-width: 100%;
+        min-height: 36px;
         justify-content: center;
+        box-sizing: border-box;
+    }
+
+    #content {
+        padding: 14px;
     }
 
     .admin-hero h2,
@@ -42,17 +111,30 @@
         font-size: 26px;
     }
 
-    #content {
-        padding: 14px;
+    #toolbar,
+    #changelist .actions {
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
     }
 
-    div.breadcrumbs {
-        padding: 10px 14px;
-        font-size: 13px;
+    #toolbar input[type="text"],
+    #toolbar input[type="search"],
+    #toolbar input[type="submit"],
+    #toolbar button,
+    #changelist .actions select,
+    #changelist .actions button,
+    #changelist .actions input[type="submit"] {
+        width: 100%;
+        box-sizing: border-box;
     }
 
-    .custom-branding-subtitle {
-        font-size: 12px;
+    #changelist .results {
+        overflow-x: auto;
+    }
+
+    #changelist table {
+        min-width: 760px;
     }
 }
 
@@ -66,11 +148,26 @@
     }
 
     .admin-card {
-        padding: 18px;
+        padding: 16px;
     }
 
     .custom-admin-title {
         padding: 16px;
+    }
+
+    .admin-card-number {
+        font-size: 24px;
+    }
+
+    #toolbar,
+    #changelist .actions,
+    .paginator,
+    #changelist-filter h2,
+    #changelist-filter h3,
+    #changelist table thead th,
+    #changelist table tbody td,
+    #changelist table tbody th {
+        font-size: 14px;
     }
 
     #changelist-filter {
@@ -81,5 +178,9 @@
 
     #changelist-filter h2 {
         border-radius: 0;
+    }
+
+    #changelist table {
+        min-width: 680px;
     }
 }
