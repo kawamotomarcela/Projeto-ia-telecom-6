@@ -170,11 +170,25 @@ Os resultados dos experimentos serão salvos em:
 ``` 
 models/resultados_experimentos.json
 ``` 
+Para verificar as informações dos arquivos `.pkl` e gerar um relatório em `.txt`, execute:
+
+```bash
+python ver_pkls.py
+```
+
+O relatório será salvo em:
+
+```bash
+resultado_pkls.txt
+```
+
 ### Observação importante
 
 - O uso de train_experimentos.py não substitui automaticamente o modelo principal do sistema.
 
 - O modelo oficial do projeto continua sendo aquele salvo por train.py, pois ele representa a melhor versão escolhida para integração com a aplicação web.
+
+- O arquivo `ver_pkls.py` serve apenas para inspeção e documentação dos arquivos gerados.
 
 ## 9️⃣ Configurar o Django
 
@@ -208,6 +222,7 @@ python src/data/download_data.py
 python src/data/preprocess.py
 python src/train.py
 python src/train_experimentos.py
+python ver_pkls.py
 python manage.py makemigrations
 python manage.py migrate
 python manage.py runserver
@@ -223,6 +238,7 @@ python src/data/download_data.py
 python src/data/preprocess.py
 python src/train.py
 python src/train_experimentos.py
+python ver_pkls.py
 python manage.py makemigrations
 python manage.py migrate
 python manage.py runserver

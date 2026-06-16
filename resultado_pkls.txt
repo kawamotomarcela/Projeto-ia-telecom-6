@@ -1,0 +1,295 @@
+RELATÓRIO DOS ARQUIVOS PKL/JSON
+Gerado em: 15/06/2026 22:02:50
+================================================================================
+Pasta analisada: models
+Arquivo de saída criado: resultado_pkls.txt
+Quantidade de arquivos encontrados: 6
+
+================================================================================
+INSPECIONANDO PKL: colunas_modelo.pkl
+================================================================================
+Arquivo: colunas_modelo.pkl
+Tipo do objeto: <class 'list'>
+Quantidade de itens: 12
+
+Conteúdo:
+1. tipo_atendimento_id
+2. produto_id
+3. defeito_reclamado_id
+4. defeito_constatado_id
+5. solucao_id
+6. fabrica_id
+7. linha_id
+8. familia_id
+9. ano_abertura
+10. mes_abertura
+11. dia_abertura
+12. dia_semana_abertura
+
+================================================================================
+INSPECIONANDO PKL: modelo_nn_mlpregressor_teste.pkl
+================================================================================
+Arquivo: modelo_nn_mlpregressor_teste.pkl
+Tipo do objeto: <class 'sklearn.pipeline.Pipeline'>
+
+Representação do objeto:
+Pipeline(steps=[('scaler', StandardScaler()),
+                ('mlp',
+                 MLPRegressor(early_stopping=True, hidden_layer_sizes=(64, 32),
+                              learning_rate='adaptive', max_iter=100,
+                              random_state=42, verbose=True))])
+
+Parâmetros do modelo:
+memory: None
+steps: [('scaler', StandardScaler()), ('mlp', MLPRegressor(early_stopping=True, hidden_layer_sizes=(64, 32),
+             learning_rate='adaptive', max_iter=100, random_state=42,
+             verbose=True))]
+transform_input: None
+verbose: False
+scaler: StandardScaler()
+mlp: MLPRegressor(early_stopping=True, hidden_layer_sizes=(64, 32),
+             learning_rate='adaptive', max_iter=100, random_state=42,
+             verbose=True)
+scaler__copy: True
+scaler__with_mean: True
+scaler__with_std: True
+mlp__activation: relu
+mlp__alpha: 0.0001
+mlp__batch_size: auto
+mlp__beta_1: 0.9
+mlp__beta_2: 0.999
+mlp__early_stopping: True
+mlp__epsilon: 1e-08
+mlp__hidden_layer_sizes: (64, 32)
+mlp__learning_rate: adaptive
+mlp__learning_rate_init: 0.001
+mlp__loss: squared_error
+mlp__max_fun: 15000
+mlp__max_iter: 100
+mlp__momentum: 0.9
+mlp__n_iter_no_change: 10
+mlp__nesterovs_momentum: True
+mlp__power_t: 0.5
+mlp__random_state: 42
+mlp__shuffle: True
+mlp__solver: adam
+mlp__tol: 0.0001
+mlp__validation_fraction: 0.1
+mlp__verbose: True
+mlp__warm_start: False
+
+Features detectadas dentro do modelo:
+1. tipo_atendimento_id
+2. produto_id
+3. defeito_reclamado_id
+4. defeito_constatado_id
+5. solucao_id
+6. fabrica_id
+7. linha_id
+8. familia_id
+9. ano_abertura
+10. mes_abertura
+11. dia_abertura
+12. dia_semana_abertura
+
+Quantidade de features esperadas pelo modelo: 12
+
+================================================================================
+INSPECIONANDO PKL: modelo_randomforest_teste.pkl
+================================================================================
+Arquivo: modelo_randomforest_teste.pkl
+Tipo do objeto: <class 'sklearn.ensemble._forest.RandomForestRegressor'>
+
+Representação do objeto:
+RandomForestRegressor(n_estimators=200, n_jobs=-1, random_state=42)
+
+Parâmetros do modelo:
+bootstrap: True
+ccp_alpha: 0.0
+criterion: squared_error
+max_depth: None
+max_features: 1.0
+max_leaf_nodes: None
+max_samples: None
+min_impurity_decrease: 0.0
+min_samples_leaf: 1
+min_samples_split: 2
+min_weight_fraction_leaf: 0.0
+monotonic_cst: None
+n_estimators: 200
+n_jobs: -1
+oob_score: False
+random_state: 42
+verbose: 0
+warm_start: False
+
+Features detectadas dentro do modelo:
+1. tipo_atendimento_id
+2. produto_id
+3. defeito_reclamado_id
+4. defeito_constatado_id
+5. solucao_id
+6. fabrica_id
+7. linha_id
+8. familia_id
+9. ano_abertura
+10. mes_abertura
+11. dia_abertura
+12. dia_semana_abertura
+
+Quantidade de features esperadas pelo modelo: 12
+
+================================================================================
+INSPECIONANDO PKL: modelo_tempo_os.pkl
+================================================================================
+Arquivo: modelo_tempo_os.pkl
+Tipo do objeto: <class 'sklearn.ensemble._forest.RandomForestRegressor'>
+
+Representação do objeto:
+RandomForestRegressor(n_estimators=200, n_jobs=-1, random_state=42)
+
+Parâmetros do modelo:
+bootstrap: True
+ccp_alpha: 0.0
+criterion: squared_error
+max_depth: None
+max_features: 1.0
+max_leaf_nodes: None
+max_samples: None
+min_impurity_decrease: 0.0
+min_samples_leaf: 1
+min_samples_split: 2
+min_weight_fraction_leaf: 0.0
+monotonic_cst: None
+n_estimators: 200
+n_jobs: -1
+oob_score: False
+random_state: 42
+verbose: 0
+warm_start: False
+
+Features detectadas dentro do modelo:
+1. tipo_atendimento_id
+2. produto_id
+3. defeito_reclamado_id
+4. defeito_constatado_id
+5. solucao_id
+6. fabrica_id
+7. linha_id
+8. familia_id
+9. ano_abertura
+10. mes_abertura
+11. dia_abertura
+12. dia_semana_abertura
+
+Quantidade de features esperadas pelo modelo: 12
+
+================================================================================
+INSPECIONANDO PKL: modelo_xgboost_teste.pkl
+================================================================================
+Arquivo: modelo_xgboost_teste.pkl
+Tipo do objeto: <class 'xgboost.sklearn.XGBRegressor'>
+
+Representação do objeto:
+XGBRegressor(base_score=None, booster=None, callbacks=None,
+             colsample_bylevel=None, colsample_bynode=None,
+             colsample_bytree=0.8, device=None, early_stopping_rounds=None,
+             enable_categorical=False, eval_metric=None, feature_types=None,
+             feature_weights=None, gamma=None, grow_policy=None,
+             importance_type=None, interaction_constraints=None,
+             learning_rate=0.05, max_bin=None, max_cat_threshold=None,
+             max_cat_to_onehot=None, max_delta_step=None, max_depth=6,
+             max_leaves=None, min_child_weight=None, missing=nan,
+             monotone_constraints=None, multi_strategy=None, n_estimators=300,
+             n_jobs=-1, num_parallel_tree=None, ...)
+
+Parâmetros do modelo:
+objective: reg:squarederror
+base_score: None
+booster: None
+callbacks: None
+colsample_bylevel: None
+colsample_bynode: None
+colsample_bytree: 0.8
+device: None
+early_stopping_rounds: None
+enable_categorical: False
+eval_metric: None
+feature_types: None
+feature_weights: None
+gamma: None
+grow_policy: None
+importance_type: None
+interaction_constraints: None
+learning_rate: 0.05
+max_bin: None
+max_cat_threshold: None
+max_cat_to_onehot: None
+max_delta_step: None
+max_depth: 6
+max_leaves: None
+min_child_weight: None
+missing: nan
+monotone_constraints: None
+multi_strategy: None
+n_estimators: 300
+n_jobs: -1
+num_parallel_tree: None
+random_state: 42
+reg_alpha: None
+reg_lambda: None
+sampling_method: None
+scale_pos_weight: None
+subsample: 0.8
+tree_method: None
+validate_parameters: None
+verbosity: None
+
+Features detectadas dentro do modelo:
+1. tipo_atendimento_id
+2. produto_id
+3. defeito_reclamado_id
+4. defeito_constatado_id
+5. solucao_id
+6. fabrica_id
+7. linha_id
+8. familia_id
+9. ano_abertura
+10. mes_abertura
+11. dia_abertura
+12. dia_semana_abertura
+
+Quantidade de features esperadas pelo modelo: 12
+
+================================================================================
+INSPECIONANDO JSON: resultados_experimentos.json
+================================================================================
+{
+    "target": "tempo_resolucao_horas",
+    "quantidade_amostras": 1243232,
+    "quantidade_features": 12,
+    "melhor_modelo_experimentos": "RandomForest",
+    "resultados": {
+        "RandomForest": {
+            "MAE": 93.3418,
+            "RMSE": 290.9576,
+            "R2": 0.4951
+        },
+        "NN_MLPRegressor": {
+            "MAE": 124.144,
+            "RMSE": 390.0251,
+            "R2": 0.0927
+        },
+        "XGBoost": {
+            "MAE": 110.6385,
+            "RMSE": 334.3904,
+            "R2": 0.3331
+        }
+    },
+    "observacao": "Os experimentos não substituem automaticamente o modelo oficial do projeto. Servem apenas para comparação de desempenho."
+}
+
+================================================================================
+PROCESSO FINALIZADO
+================================================================================
+O relatório foi salvo em: resultado_pkls.txt

@@ -1,232 +1,247 @@
 {% load static %}
-<!DOCTYPE html>
+<!doctype html>
 <html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Predição de Tempo de Resolução</title>
 
-    <link rel="stylesheet" href="{% static 'css/home/base.css' %}">
-    <link rel="stylesheet" href="{% static 'css/home/layout.css' %}">
-    <link rel="stylesheet" href="{% static 'css/home/form.css' %}">
-    <link rel="stylesheet" href="{% static 'css/home/result.css' %}">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tom-select/dist/css/tom-select.css">
-    <link rel="stylesheet" href="{% static 'css/home/tom-select-custom.css' %}">
-</head>
-<body>
+    <link rel="stylesheet" href="{% static 'css/home/base.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/home/layout.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/home/form.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/home/result.css' %}" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/tom-select/dist/css/tom-select.css"
+    />
+    <link
+      rel="stylesheet"
+      href="{% static 'css/home/tom-select-custom.css' %}"
+    />
+  </head>
+  <body>
     <main class="app-shell">
-        <section class="page-card">
-            <header class="hero-section">
-                <div class="hero-content">
-                    <div class="hero-top-row">
-                        <span class="badge">Machine Learning + Django</span>
+      <section class="page-card">
+        <header class="hero-section">
+          <div class="hero-content">
+            <div class="hero-top-row">
+              <span class="badge badge-with-logo">
+                <img
+                  src="{% static 'img/telecontrol-logo.png' %}"
+                  alt="Logo"
+                  class="badge-logo"
+                />
+                <span>Machine Learning + Django</span>
+              </span>
 
-                        <a href="/admin/" class="btn-admin">
-                            Acessar painel administrativo
-                        </a>
-                    </div>
+              <a href="/admin/" class="btn-admin">
+                Acessar painel administrativo
+              </a>
+            </div>
 
-                    <h1>Predição de Tempo de Resolução de Ordens de Serviço</h1>
+            <h1>Predição de Tempo de Resolução de Ordens de Serviço</h1>
 
-                    <p class="hero-description">
-                        Esta aplicação estima o tempo necessário para concluir uma Ordem de Serviço
-                        com base nos dados preenchidos no formulário e nas características do produto
-                        associadas ao <strong>produto_id</strong>.
-                    </p>
+            <p class="hero-description">
+              Esta aplicação estima o tempo necessário para concluir uma Ordem
+              de Serviço com base nos dados preenchidos no formulário e nas
+              características do produto associadas ao
+              <strong>produto_id</strong>.
+            </p>
 
-                    <div class="hero-meta">
-                        <div class="meta-item">
-                            <span class="meta-label">Objetivo</span>
-                            <strong class="meta-value">Estimar o tempo de resolução</strong>
-                        </div>
+            <div class="hero-meta">
+              <div class="meta-item">
+                <span class="meta-label">Objetivo</span>
+                <strong class="meta-value">Estimar o tempo de resolução</strong>
+              </div>
 
-                        <div class="meta-item">
-                            <span class="meta-label">Entrada</span>
-                            <strong class="meta-value">Dados da OS + dados do produto</strong>
-                        </div>
+              <div class="meta-item">
+                <span class="meta-label">Entrada</span>
+                <strong class="meta-value"
+                  >Dados da OS + dados do produto</strong
+                >
+              </div>
 
-                        <div class="meta-item">
-                            <span class="meta-label">Saída</span>
-                            <strong class="meta-value">Tempo previsto em horas</strong>
-                        </div>
-                    </div>
+              <div class="meta-item">
+                <span class="meta-label">Saída</span>
+                <strong class="meta-value">Tempo previsto em horas</strong>
+              </div>
+            </div>
+          </div>
+        </header>
+
+        <section class="main-grid">
+          <section class="panel form-panel">
+            <div class="panel-header">
+              <div>
+                <p class="section-kicker">Formulário</p>
+                <h2>Dados da Ordem de Serviço</h2>
+              </div>
+
+              <p class="panel-text">
+                Preencha os dados principais da Ordem de Serviço e informe a
+                data de abertura. Os campos de tipo de atendimento, defeitos e
+                solução utilizam descrições legíveis para facilitar o
+                preenchimento.
+              </p>
+            </div>
+
+            <div class="info-banner">
+              <div class="info-banner-icon">ℹ️</div>
+              <div class="info-banner-content">
+                <strong>Observação</strong>
+                <p>
+                  O campo de produto ainda é informado manualmente por ID. Os
+                  demais campos possuem seleção com busca para tornar o uso mais
+                  rápido, intuitivo e seguro.
+                </p>
+              </div>
+            </div>
+
+            <form method="post" class="prediction-form" novalidate>
+              {% csrf_token %} {% for field in form %}
+              <div
+                class="form-group {% if field.name == 'tipo_atendimento_id' or field.name == 'produto_id' %}full-width{% endif %}"
+              >
+                <label for="{{ field.id_for_label }}" class="form-label">
+                  {{ field.label }} {% if field.field.required %}
+                  <span class="required-dot">*</span>
+                  {% endif %}
+                </label>
+
+                <div class="field-wrapper">{{ field }}</div>
+
+                {% if field.help_text %}
+                <small class="help-text">{{ field.help_text }}</small>
+                {% endif %} {% if field.errors %}
+                <div class="error-box">
+                  {% for error in field.errors %}
+                  <span>{{ error }}</span>
+                  {% endfor %}
                 </div>
-            </header>
+                {% endif %}
+              </div>
+              {% endfor %}
 
-            <section class="main-grid">
-                <section class="panel form-panel">
-                    <div class="panel-header">
-                        <div>
-                            <p class="section-kicker">Formulário</p>
-                            <h2>Dados da Ordem de Serviço</h2>
-                        </div>
+              <button type="submit" class="btn-primary">
+                <span>Gerar previsão</span>
+              </button>
+            </form>
+          </section>
 
-                        <p class="panel-text">
-                            Preencha os dados principais da Ordem de Serviço e informe a data de abertura.
-                            Os campos de tipo de atendimento, defeitos e solução utilizam descrições legíveis
-                            para facilitar o preenchimento.
-                        </p>
-                    </div>
+          <aside class="panel result-panel">
+            <div class="result-card">
+              <div class="result-header">
+                <p class="section-kicker">Resultado</p>
+                <h2>Previsão do Tempo de Resolução</h2>
+                <p class="panel-text">
+                  Após o envio do formulário, o sistema processa as informações
+                  e estima o tempo necessário para a conclusão da Ordem de
+                  Serviço.
+                </p>
+              </div>
 
-                    <div class="info-banner">
-                        <div class="info-banner-icon">ℹ️</div>
-                        <div class="info-banner-content">
-                            <strong>Observação</strong>
-                            <p>
-                                O campo de produto ainda é informado manualmente por ID.
-                                Os demais campos possuem seleção com busca para tornar o uso mais rápido,
-                                intuitivo e seguro.
-                            </p>
-                        </div>
-                    </div>
+              {% if erro %}
+              <div class="status-card error-state">
+                <div class="status-icon">⚠️</div>
+                <div class="status-content">
+                  <h3>Não foi possível gerar a previsão</h3>
+                  <p>{{ erro }}</p>
+                </div>
+              </div>
 
-                    <form method="post" class="prediction-form" novalidate>
-                        {% csrf_token %}
+              {% elif resultado is not None %}
+              <div class="highlight-card">
+                <span class="highlight-label">Tempo estimado</span>
+                <strong class="highlight-value">{{ resultado }} horas</strong>
+                <p class="highlight-helper">
+                  Este valor representa a estimativa calculada pelo modelo
+                  treinado.
+                </p>
+              </div>
 
-                        {% for field in form %}
-                            <div class="form-group {% if field.name == 'tipo_atendimento_id' or field.name == 'produto_id' %}full-width{% endif %}">
-                                <label for="{{ field.id_for_label }}" class="form-label">
-                                    {{ field.label }}
-                                    {% if field.field.required %}
-                                        <span class="required-dot">*</span>
-                                    {% endif %}
-                                </label>
+              <div class="details-grid">
+                <div class="detail-card">
+                  <span class="detail-title">Status</span>
+                  <span class="detail-text success-text"
+                    >Previsão gerada com sucesso</span
+                  >
+                </div>
 
-                                <div class="field-wrapper">
-                                    {{ field }}
-                                </div>
+                <div class="detail-card">
+                  <span class="detail-title">Modelo utilizado</span>
+                  <span class="detail-text">
+                    {% if modelo_utilizado %} {{ modelo_utilizado }} {% else %}
+                    Modelo não identificado {% endif %}
+                  </span>
+                </div>
 
-                                {% if field.help_text %}
-                                    <small class="help-text">{{ field.help_text }}</small>
-                                {% endif %}
+                <div class="detail-card">
+                  <span class="detail-title">Processamento</span>
+                  <span class="detail-text">
+                    O sistema utiliza os dados informados no formulário e os
+                    dados complementares do produto para montar a entrada do
+                    modelo.
+                  </span>
+                </div>
 
-                                {% if field.errors %}
-                                    <div class="error-box">
-                                        {% for error in field.errors %}
-                                            <span>{{ error }}</span>
-                                        {% endfor %}
-                                    </div>
-                                {% endif %}
-                            </div>
-                        {% endfor %}
+                <div class="detail-card">
+                  <span class="detail-title">Base utilizada</span>
+                  <span class="detail-text">
+                    A previsão considera o modelo treinado, as colunas salvas no
+                    processo de treinamento e os dados complementares do
+                    produto.
+                  </span>
+                </div>
+              </div>
 
-                        <button type="submit" class="btn-primary">
-                            <span>Gerar previsão</span>
-                        </button>
-                    </form>
-                </section>
-
-                <aside class="panel result-panel">
-                    <div class="result-card">
-                        <div class="result-header">
-                            <p class="section-kicker">Resultado</p>
-                            <h2>Previsão do Tempo de Resolução</h2>
-                            <p class="panel-text">
-                                Após o envio do formulário, o sistema processa as informações
-                                e estima o tempo necessário para a conclusão da Ordem de Serviço.
-                            </p>
-                        </div>
-
-                        {% if erro %}
-                            <div class="status-card error-state">
-                                <div class="status-icon">⚠️</div>
-                                <div class="status-content">
-                                    <h3>Não foi possível gerar a previsão</h3>
-                                    <p>{{ erro }}</p>
-                                </div>
-                            </div>
-
-                        {% elif resultado is not None %}
-                            <div class="highlight-card">
-                                <span class="highlight-label">Tempo estimado</span>
-                                <strong class="highlight-value">{{ resultado }} horas</strong>
-                                <p class="highlight-helper">
-                                    Este valor representa a estimativa calculada pelo modelo treinado.
-                                </p>
-                            </div>
-
-                            <div class="details-grid">
-                                <div class="detail-card">
-                                    <span class="detail-title">Status</span>
-                                    <span class="detail-text success-text">Previsão gerada com sucesso</span>
-                                </div>
-
-                                <div class="detail-card">
-                                    <span class="detail-title">Modelo utilizado</span>
-                                    <span class="detail-text">
-                                        {% if modelo_utilizado %}
-                                            {{ modelo_utilizado }}
-                                        {% else %}
-                                            Modelo não identificado
-                                        {% endif %}
-                                    </span>
-                                </div>
-
-                                <div class="detail-card">
-                                    <span class="detail-title">Processamento</span>
-                                    <span class="detail-text">
-                                        O sistema utiliza os dados informados no formulário e os
-                                        dados complementares do produto para montar a entrada do modelo.
-                                    </span>
-                                </div>
-
-                                <div class="detail-card">
-                                    <span class="detail-title">Base utilizada</span>
-                                    <span class="detail-text">
-                                        A previsão considera o modelo treinado, as colunas salvas no
-                                        processo de treinamento e os dados complementares do produto.
-                                    </span>
-                                </div>
-                            </div>
-
-                        {% else %}
-                            <div class="empty-state">
-                                <div class="empty-icon">⏱️</div>
-                                <h3>Aguardando preenchimento</h3>
-                                <p>
-                                    Preencha os dados da Ordem de Serviço e clique em
-                                    <strong>Gerar previsão</strong> para visualizar o resultado.
-                                </p>
-                            </div>
-                        {% endif %}
-                    </div>
-                </aside>
-            </section>
+              {% else %}
+              <div class="empty-state">
+                <div class="empty-icon">⏱️</div>
+                <h3>Aguardando preenchimento</h3>
+                <p>
+                  Preencha os dados da Ordem de Serviço e clique em
+                  <strong>Gerar previsão</strong> para visualizar o resultado.
+                </p>
+              </div>
+              {% endif %}
+            </div>
+          </aside>
         </section>
+      </section>
     </main>
 
     <script src="https://cdn.jsdelivr.net/npm/tom-select/dist/js/tom-select.complete.min.js"></script>
     <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            const camposSelect = [
-                'select[name="tipo_atendimento_id"]',
-                'select[name="defeito_reclamado_id"]',
-                'select[name="defeito_constatado_id"]',
-                'select[name="solucao_id"]'
-            ];
+      document.addEventListener("DOMContentLoaded", function () {
+        const camposSelect = [
+          'select[name="tipo_atendimento_id"]',
+          'select[name="defeito_reclamado_id"]',
+          'select[name="defeito_constatado_id"]',
+          'select[name="solucao_id"]',
+        ];
 
-            camposSelect.forEach(function (seletor) {
-                const elemento = document.querySelector(seletor);
+        camposSelect.forEach(function (seletor) {
+          const elemento = document.querySelector(seletor);
 
-                if (!elemento) return;
+          if (!elemento) return;
 
-                new TomSelect(elemento, {
-                    create: false,
-                    allowEmptyOption: true,
-                    maxOptions: 200,
-                    closeAfterSelect: true,
-                    hideSelected: false,
-                    placeholder: "Digite para buscar...",
-                    searchField: ["text"],
-                    sortField: [{ field: "text", direction: "asc" }],
-                    render: {
-                        no_results: function () {
-                            return '<div class="no-results">Nenhum resultado encontrado</div>';
-                        }
-                    }
-                });
-            });
+          new TomSelect(elemento, {
+            create: false,
+            allowEmptyOption: true,
+            maxOptions: 200,
+            closeAfterSelect: true,
+            hideSelected: false,
+            placeholder: "Digite para buscar...",
+            searchField: ["text"],
+            sortField: [{ field: "text", direction: "asc" }],
+            render: {
+              no_results: function () {
+                return '<div class="no-results">Nenhum resultado encontrado</div>';
+              },
+            },
+          });
         });
+      });
     </script>
-</body>
+  </body>
 </html>

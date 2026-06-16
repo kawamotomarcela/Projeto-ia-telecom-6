@@ -41,7 +41,35 @@
     align-self: auto;
     display: inline-flex;
     align-items: center;
-    padding: 8px 14px;
+    padding: 5px 12px;
+    border-radius: 999px;
+    font-size: 0.84rem;
+    font-weight: 600;
+    color: #bfdbfe;
+    background: rgba(37, 99, 235, 0.18);
+    border: 1px solid rgba(191, 219, 254, 0.20);
+}
+
+.badge-with-logo {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    background: transparent;
+    border: none;
+    padding: 0;
+}
+
+.badge-logo {
+    width: 120px;
+    height: auto;
+    object-fit: contain;
+    display: block;
+}
+
+.badge-with-logo span {
+    display: inline-flex;
+    align-items: center;
+    padding: 5px 12px;
     border-radius: 999px;
     font-size: 0.84rem;
     font-weight: 600;
